@@ -1,6 +1,9 @@
 package handler
 
-import "InfoBot/apptype"
+import (
+	"InfoBot/apptype"
+	"log"
+)
 
 func wichWay(userId int, f func(error)) (bool, error) {
 	var count int
@@ -13,7 +16,7 @@ func wichWay(userId int, f func(error)) (bool, error) {
 
 func find(userId int, f func(error)) bool {
 	var count int
-	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Users WHERE (isadmin = 0 OR isadmin = 1) AND userId = $1", userId).Scan(&count)
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Users WHERE userId = $1", userId).Scan(&count)
 	if err != nil {
 		f(err)
 	}
@@ -26,10 +29,11 @@ func dbRetrieveUser(req *apptype.Common, f func(error)) {
 	if err != nil {
 		f(err)
 	}
+	log.Print(req.Action, req.Level, "HUH?")
 }
 
 func createUser(req *apptype.Common, f func(error)) {
-	_, err := apptype.DB.Exec("INSERT INTO Users (userId, isadmin) VALUES ($1, 0)", req.Id)
+	_, err := apptype.DB.Exec("INSERT INTO Users (userId, action, isadmin) VALUES ($1, 'new', 0)", req.Id)
 	if err != nil {
 		f(err)
 	}

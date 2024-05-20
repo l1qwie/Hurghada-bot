@@ -3,7 +3,7 @@ package settest
 import "InfoBot/apptype"
 
 func UpdateAction() {
-	_, err := apptype.DB.Exec("UPDATE Users SET action = $1 WHERE userId = $2", "", 999)
+	_, err := apptype.DB.Exec("UPDATE Users SET action = $1 WHERE userId = $2", "new", 999)
 	if err != nil {
 		panic(err)
 	}

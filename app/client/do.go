@@ -4,6 +4,7 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"log"
 )
 
 const (
@@ -74,6 +75,7 @@ func divarication() {
 }
 
 func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
+	log.Print(req)
 	if req.Request == "MainMenu" {
 		mainMenu(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "worship" {
@@ -91,6 +93,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "divarication" {
 		divarication()
 	} else if req.Action == "new" {
+		log.Print("Dispatcher in `if req.Action == 'new'`")
 		greeteings(req, fm, dict.Dictionary[req.Language])
 	}
 	fm.WriteChatId(req.Id)

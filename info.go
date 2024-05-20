@@ -1,6 +1,8 @@
 package main
 
-import "InfoBot/tests/client"
+import (
+	"InfoBot/tests/client"
+)
 
 func main() {
 	client.Start()
