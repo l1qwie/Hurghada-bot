@@ -31,3 +31,9 @@ func chHomeGroups() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "homegroups"
 	return tr
 }
+
+func chPrayers() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "prayers"
+	return tr
+}

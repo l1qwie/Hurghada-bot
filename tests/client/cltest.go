@@ -59,10 +59,24 @@ func testShowHomeGroups() {
 	ts.DoTest()
 }
 
+func testShowPrayers() {
+	defer settest.DeleteUser()
+	settest.CreateUser()
+	ts := new(settest.TestStuct)
+	ts.Round = 3
+	ts.Name = "ShowPrayers"
+	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chClient, chPrayers}
+	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showPrayers}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
+	ts.UpdtLevel = []int{0, 1, 2}
+	ts.DoTest()
+}
+
 func Start() {
 	apptype.DB = apptype.ConnectToDatabase(true)
 	//testShowSchedule()
 	//testShowWorship()
 	//testShowYouthMeeting()
-	testShowHomeGroups()
+	//testShowHomeGroups()
+	testShowPrayers()
 }

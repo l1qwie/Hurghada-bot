@@ -34,8 +34,9 @@ func homegroups(fm *formatter.Formatter, dict map[string]string) {
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
-func prayers() {
-
+func prayers(fm *formatter.Formatter, dict map[string]string) {
+	fm.WriteString(dict["prayersDetails"])
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func mewAndWomen() {
@@ -84,6 +85,9 @@ func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]
 	} else if req.Request == "homegroups" {
 		req.Action = "homegroups"
 		homegroups(fm, dict)
+	} else if req.Request == "prayers" {
+		req.Action = "prayers"
+		prayers(fm, dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -100,7 +104,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "homegroups" {
 		homegroups(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "prayers" {
-		prayers()
+		prayers(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "men&women" {
 		mewAndWomen()
 	} else if req.Action == "film" {

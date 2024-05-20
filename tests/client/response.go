@@ -82,3 +82,21 @@ func showHomeGroups(fm *formatter.Formatter) {
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 
 }
+
+func showPrayers(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString(`Каждый вторник у нас в главном здании проводится часовая молитва.
+	А еще в среду у нас онлайн-молитва в Zoom. Если у вас есть нужда или же вы хотите просто помолиться, то мы ждем вас!
+	
+	Начало молитвы в здании (Вт): 9:00
+	Начало молитвы в Zoom (Ср): 8:00
+	
+	Мы находимся тут:
+	
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu
+	
+	Ссылка на Zoom будет отсылаться в наш общий церковный чат. Присоединяйтесь!`, true)
+	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
+
+}
