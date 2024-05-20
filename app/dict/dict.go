@@ -74,6 +74,16 @@ func ru(dict map[string]string) {
 	Начало женской группы (Чт): 10:00
 	Адрес: Arabia Azur Resort
 	Ссылка на адрес: https://www.google.com/maps/place/Arabia+Azur+Resort/@27.2404984,33.8424506,18.13z/data=!4m9!3m8!1s0x145287ef8202025d:0x50c76277c8a88d29!5m2!4m1!1i2!8m2!3d27.2403457!4d33.844051!16s%2Fg%2F1hc1ykfp5?entry=ttu`
+	dict["filmDetails"] = `Каждую пятницу наш дорогой друг проводит показ кино на своей вилле!
+	Хотите хорошо провести время, расслабиться, пообщаться и посмотреть прекрасный фильм?
+	Тогда вам определенно стоит посетить данное мероприятие
+	
+	Хозяин виллы: Мойша Исраель
+	Начало: 20:00
+	Фильм: Гладиатор (2000)
+	Ссылка на адрес: https://www.google.com/maps/place/27%C2%B016'43.7%22N+33%C2%B046'32.3%22E/@27.278802,33.7749933,19z/data=!3m1!4b1!4m4!3m3!8m2!3d27.278802!4d33.775637?entry=ttu
+	
+	Совет: лучше всего добираться на такси, так как ехать далеко и автобусы почти не ходят`
 	dict["MainMenu"] = "Главное Меню"
 }
 
@@ -147,6 +157,16 @@ func en(dict map[string]string) {
 	Start time for the women's group (Thu): 10:00 AM
 	Address: Arabia Azur Resort
 	Link to address: https://www.google.com/maps/place/Arabia+Azur+Resort/@27.2404984,33.8424506,18.13z/data=!4m9!3m8!1s0x145287ef8202025d:0x50c76277c8a88d29!5m2!4m1!1i2!8m2!3d27.2403457!4d33.844051!16s%2Fg%2F1hc1ykfp5?entry=ttu`
+	dict["filmDetails"] = `Every Friday, our dear friend hosts a movie night at his villa!
+	Want to have a good time, relax, socialize, and watch a great movie?
+	Then you definitely should attend this event
+	
+	Villa host: Moisha Israel
+	Start time: 8:00 PM
+	Movie: Gladiator (2000)
+	Link to address: https://www.google.com/maps/place/27%C2%B016'43.7%22N+33%C2%B046'32.3%22E/@27.278802,33.7749933,19z/data=!3m1!4b1!4m4!3m3!8m2!3d27.278802!4d33.775637?entry=ttu
+	
+	Tip: It is best to take a taxi, as it is far and buses rarely run`
 	dict["MainMenu"] = "Main Menu"
 }
 
