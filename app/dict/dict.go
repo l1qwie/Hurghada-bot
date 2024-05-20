@@ -24,6 +24,17 @@ func ru(dict map[string]string) {
 	Мы находимся тут: 
 	
 	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
+	dict["youthDetails"] = `Каждое воскресенье у нас проходят молодежные встречи на дому (очень похоже на домашнюю группу, но только для молодых).
+	На протяжении около 2 часов мы общаемся, кушаем вкусности, иногда во что-нибудь играем и обсуждаем Библию. Если Вам от 12 до 35 лет, мы очень ждем Вас!
+	
+	Начало: каждое воскресенье в 16:00
+	Ведущий: Ислам Мусульманов
+	
+	Геолокация иногда меняется, поэтому лучше приходить до 16:00 в наше главное здание и спрашивать у ведущего, где сегодня будет молодежная встреча
+	
+	Наше главное здание тут:
+	
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
 	dict["MainMenu"] = "Главное Меню"
 }
 
@@ -45,6 +56,17 @@ func en(dict map[string]string) {
 	Sermon by: Ahmed Abdulov
 	
 	We are located here:
+	
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
+	dict["youthDetails"] = `Every Sunday, we have youth meetings at home (similar to home groups but just for young people).
+	For about 2 hours, we chat, enjoy some treats, sometimes play games, and discuss the Bible. If you are between 12 and 35 years old, we are eagerly waiting for you!
+	
+	Start time: Every Sunday at 4:00 PM
+	Leader: Islam Muslimov
+	
+	The location sometimes changes, so it's best to come to our main building before 4:00 PM and ask the leader where the youth meeting will be held today.
+	
+	Our main building is here:
 	
 	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
 	dict["MainMenu"] = "Main Menu"

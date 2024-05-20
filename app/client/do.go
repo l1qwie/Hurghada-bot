@@ -24,8 +24,9 @@ func worship(fm *formatter.Formatter, dict map[string]string) {
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
-func youthmeeting() {
-
+func youthmeeting(fm *formatter.Formatter, dict map[string]string) {
+	fm.WriteString(dict["youthDetails"])
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func homegroups() {
@@ -76,6 +77,9 @@ func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]
 	if req.Request == "worship" {
 		req.Action = "worship"
 		worship(fm, dict)
+	} else if req.Request == "youthmeeting" {
+		req.Action = "youthmeeting"
+		youthmeeting(fm, dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -88,7 +92,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "worship" {
 		worship(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "youthmeeting" {
-		youthmeeting()
+		youthmeeting(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "homegroups" {
 		homegroups()
 	} else if req.Action == "prayers" {

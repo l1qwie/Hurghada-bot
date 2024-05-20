@@ -33,12 +33,12 @@ func testShowWorship() {
 	ts.DoTest()
 }
 
-func testYouthMeeting() {
+func testShowYouthMeeting() {
 	defer settest.DeleteUser()
 	settest.CreateUser()
 	ts := new(settest.TestStuct)
 	ts.Round = 3
-	ts.Name = "ShowWorship"
+	ts.Name = "ShowYouthMeeting"
 	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chClient, chYouth}
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showYouth}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
@@ -50,5 +50,5 @@ func Start() {
 	apptype.DB = apptype.ConnectToDatabase(true)
 	//testShowSchedule()
 	//testShowWorship()
-	testYouthMeeting()
+	testShowYouthMeeting()
 }

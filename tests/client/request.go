@@ -19,3 +19,9 @@ func chWorship() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "worship"
 	return tr
 }
+
+func chYouth() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "youthmeeting"
+	return tr
+}
