@@ -39,3 +39,15 @@ func trfunc3() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "WHAT THE GELL!?"
 	return tr
 }
+
+func trfunc4() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "OHJ!?"
+	return tr
+}
+
+func trfunc5() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "SO, WHAT WE GONNA DO?"
+	return tr
+}

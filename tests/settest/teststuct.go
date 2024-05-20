@@ -82,7 +82,8 @@ func (t *TestStuct) DoTest() {
 		t.Wcounter = 0
 		for t.Trshcount < 3 {
 			t.theHead()
-			t.prepDatabase()
+			//t.prepDatabase()
+			UpdateLevel(t.UpdtLevel[t.TRcount])
 			t.response = app.Receiving(t.request)
 			t.acceptAnswers()
 			t.Trshcount++

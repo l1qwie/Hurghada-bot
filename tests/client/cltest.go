@@ -12,7 +12,7 @@ func testShowSchedule() {
 	settest.CreateUser()
 	ts := new(settest.TestStuct)
 	ts.Round = 2
-	ts.Name = "clientTest"
+	ts.Name = "ShowSchedule"
 	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chClient}
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3}
@@ -20,7 +20,35 @@ func testShowSchedule() {
 	ts.DoTest()
 }
 
+func testShowWorship() {
+	defer settest.DeleteUser()
+	settest.CreateUser()
+	ts := new(settest.TestStuct)
+	ts.Round = 3
+	ts.Name = "ShowWorship"
+	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chClient, chWorship}
+	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showWorship}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
+	ts.UpdtLevel = []int{0, 1, 2}
+	ts.DoTest()
+}
+
+func testYouthMeeting() {
+	defer settest.DeleteUser()
+	settest.CreateUser()
+	ts := new(settest.TestStuct)
+	ts.Round = 3
+	ts.Name = "ShowWorship"
+	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chClient, chYouth}
+	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showYouth}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
+	ts.UpdtLevel = []int{0, 1, 2}
+	ts.DoTest()
+}
+
 func Start() {
 	apptype.DB = apptype.ConnectToDatabase(true)
-	testShowSchedule()
+	//testShowSchedule()
+	//testShowWorship()
+	testYouthMeeting()
 }

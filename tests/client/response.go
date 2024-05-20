@@ -25,3 +25,21 @@ func showSchedule(fm *formatter.Formatter) {
 	fm.AssertInlineKeyboard([]int{1, 1, 1, 1, 1, 1}, []string{"Богослужение", "Молодежка", "Домашняя Группа", "Молитвы", "Мужское&Женское", "Фильм"},
 		[]string{"worship", "youthmeeting", "homegroups", "prayers", "men&women", "film"}, []string{"cmd", "cmd", "cmd", "cmd", "cmd", "cmd"}, true)
 }
+
+func showWorship(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString(`Каждую субботу в 13:00 у нас в главном здании церкви начинается богослужение.
+	На протяжении примерно 20-25 минут в начале мы играем и поем песни, дальше некоторое количество
+	времени уделяется молитвам, а потом главная проповедь. Обычно богослужение заканчивается ближе к 15:00,
+	но никто никуда не расходится, так как можно пообщаться и выпить чаю. Очень ждем именно Вас!
+	
+	Начало: каждая суббота в 13:00
+	Проповедь будет вести: Ахмед Абдулов
+	
+	Мы находимся тут: 
+	
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`, true)
+	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
+
+}
