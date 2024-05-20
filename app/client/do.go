@@ -39,8 +39,9 @@ func prayers(fm *formatter.Formatter, dict map[string]string) {
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
-func mewAndWomen() {
-
+func mewAndWomen(fm *formatter.Formatter, dict map[string]string) {
+	fm.WriteString(dict["men&womenDetails"])
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func film() {
@@ -88,6 +89,9 @@ func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]
 	} else if req.Request == "prayers" {
 		req.Action = "prayers"
 		prayers(fm, dict)
+	} else if req.Request == "men&women" {
+		req.Action = "men&women"
+		mewAndWomen(fm, dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -106,7 +110,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "prayers" {
 		prayers(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "men&women" {
-		mewAndWomen()
+		mewAndWomen(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "film" {
 		film()
 	} else if req.Action == "divarication" {

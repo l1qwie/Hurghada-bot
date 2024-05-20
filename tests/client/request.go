@@ -37,3 +37,9 @@ func chPrayers() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "prayers"
 	return tr
 }
+
+func chMandW() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "men&women"
+	return tr
+}

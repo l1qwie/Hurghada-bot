@@ -100,3 +100,21 @@ func showPrayers(fm *formatter.Formatter) {
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 
 }
+
+func showMandW(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString(`Каждый понедельник и четверг у нас проводятся гендерные группы.
+	Для мужчин и женщин соответственно. Мы там также молимся, обсуждаем Библию,
+	но на этот раз только в кругу своего же пола. Заодно мы можем обсудить некоторые свои проблемы,
+	которые мы не рискнули бы обсудить в смешанной группе. Если у вас есть запрос на такую встречу, то мы ждем вас!
+	
+	Начало мужской группы (Пн): 9:00
+	Адрес: Дом напротив Tiba Perfumes
+	Ссылка на адрес: https://www.google.com/maps/place/Tiba+Perfumes/@27.2233417,33.8372355,19.79z/data=!4m6!3m5!1s0x14528762fd7d5db9:0x2754c6b5443c6e1!8m2!3d27.222997!4d33.8375066!16s%2Fg%2F11fprzqxk0?entry=ttu
+	
+	Начало женской группы (Чт): 10:00
+	Адрес: Arabia Azur Resort
+	Ссылка на адрес: https://www.google.com/maps/place/Arabia+Azur+Resort/@27.2404984,33.8424506,18.13z/data=!4m9!3m8!1s0x145287ef8202025d:0x50c76277c8a88d29!5m2!4m1!1i2!8m2!3d27.2403457!4d33.844051!16s%2Fg%2F1hc1ykfp5?entry=ttu`, true)
+	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
+}
