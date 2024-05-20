@@ -25,3 +25,9 @@ func chYouth() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "youthmeeting"
 	return tr
 }
+
+func chHomeGroups() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "homegroups"
+	return tr
+}
