@@ -2,7 +2,8 @@ package handler
 
 import (
 	"InfoBot/apptype"
-	"log"
+
+	_ "github.com/lib/pq"
 )
 
 func wichWay(userId int, f func(error)) (bool, error) {
@@ -24,12 +25,11 @@ func find(userId int, f func(error)) bool {
 }
 
 func dbRetrieveUser(req *apptype.Common, f func(error)) {
-	dbreq := "SELECT action, level FROM Users WHERE userId = $1"
-	err := apptype.DB.QueryRow(dbreq, req.Id).Scan(&req.Action, &req.Level)
+	dbreq := "SELECT action, level, titleru, titleen, discrpru, discrpen FROM Users WHERE userId = $1"
+	err := apptype.DB.QueryRow(dbreq, req.Id).Scan(&req.Action, &req.Level, &req.TitleRu, &req.TitleEn, &req.DiscrpRu, &req.DiscrpEn)
 	if err != nil {
 		f(err)
 	}
-	log.Print(req.Action, req.Level, "HUH?")
 }
 
 func createUser(req *apptype.Common, f func(error)) {
@@ -41,9 +41,16 @@ func createUser(req *apptype.Common, f func(error)) {
 	req.Level = 0
 }
 
-func dbRetainUser(req *apptype.Common, f func(error)) {
-	dbreq := "UPDATE Users SET action = $1, level = $2 WHERE userId = $3"
-	_, err := apptype.DB.Exec(dbreq, req.Action, req.Level, req.Id)
+func retainUser(req *apptype.Common, f func(error)) {
+	_, err := apptype.DB.Exec("UPDATE Users SET action = $1, level = $2, titleru = $3, titleen = $4, discrpru = $5, discrpen = $6 WHERE userId = $3",
+		req.Action, req.Level, req.Id, req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn)
+	if err != nil {
+		f(err)
+	}
+}
+
+func changeStatus(userId int, f func(error)) {
+	_, err := apptype.DB.Exec("UPDATE Users SET isadmin = 1 WHERE userId = $1", userId)
 	if err != nil {
 		f(err)
 	}

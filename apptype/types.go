@@ -3,6 +3,8 @@ package apptype
 import (
 	"database/sql"
 	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
@@ -14,6 +16,10 @@ type Common struct {
 	ExMessageId int
 	Action      string
 	Level       int
+	TitleRu     string
+	TitleEn     string
+	DiscrpRu    string
+	DiscrpEn    string
 }
 
 func connectData() string {

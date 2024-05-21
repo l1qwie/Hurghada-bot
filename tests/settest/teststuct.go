@@ -85,6 +85,10 @@ func (t *TestStuct) DoTest() {
 			//t.prepDatabase()
 			UpdateLevel(t.UpdtLevel[t.TRcount])
 			t.response = app.Receiving(t.request)
+			err := t.response.Complete()
+			if err != nil {
+				panic(err)
+			}
 			t.acceptAnswers()
 			t.Trshcount++
 			t.Wcounter++
