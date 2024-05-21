@@ -4,6 +4,7 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"log"
 )
 
 const (
@@ -19,41 +20,19 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 	}
 }
 
-func worship(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["worchipDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
-func youthmeeting(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["youthDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
-func homegroups(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["homegroupsDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
-func prayers(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["prayersDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
-func mewAndWomen(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["men&womenDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
-func film(fm *formatter.Formatter, dict map[string]string) {
-	fm.WriteString(dict["filmDetails"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
-}
-
 func mainMenu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Action = "divarication"
+	crd := lengthOfNames(fm.Error)
+	names := selectNames(req.Language, len(crd), fm.Error)
+	log.Print(crd, names)
 	fm.WriteString(dict["lookWhatWeHave"])
-	setKb(fm, []int{1, 1, 1, 1, 1, 1}, []string{dict["worship"], dict["youthmeeting"], dict["homegroups"], dict["prayers"], dict["men&women"], dict["film"]},
-		[]string{"worship", "youthmeeting", "homegroups", "prayers", "men&women", "film"})
+	setKb(fm, crd, names, selectValues(names, req.Language, len(crd), fm.Error))
+}
+
+func showDetails(fm *formatter.Formatter, dict map[string]string, req, lang string) {
+	details := selectDetails(req, lang, fm.Error)
+	fm.WriteString(details)
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func sayHello(fm *formatter.Formatter, dict map[string]string) {
@@ -78,28 +57,12 @@ func greeteings(req *apptype.Common, fm *formatter.Formatter, dict map[string]st
 }
 
 func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
-	if req.Request == "worship" {
-		req.Action = "worship"
-		worship(fm, dict)
-	} else if req.Request == "youthmeeting" {
-		req.Action = "youthmeeting"
-		youthmeeting(fm, dict)
-	} else if req.Request == "homegroups" {
-		req.Action = "homegroups"
-		homegroups(fm, dict)
-	} else if req.Request == "prayers" {
-		req.Action = "prayers"
-		prayers(fm, dict)
-	} else if req.Request == "men&women" {
-		req.Action = "men&women"
-		mewAndWomen(fm, dict)
-	} else if req.Request == "film" {
-		req.Action = "film"
-		film(fm, dict)
+	if findName(req.Request, fm.Error) {
+		req.Action = req.Request
+		showDetails(fm, dict, req.Request, req.Language)
 	} else {
 		mainMenu(req, fm, dict)
 	}
-
 }
 
 func checkLanguage(req *apptype.Common) {
@@ -112,22 +75,12 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	checkLanguage(req)
 	if req.Request == "MainMenu" {
 		mainMenu(req, fm, dict.Dictionary[req.Language])
-	} else if req.Action == "worship" {
-		worship(fm, dict.Dictionary[req.Language])
-	} else if req.Action == "youthmeeting" {
-		youthmeeting(fm, dict.Dictionary[req.Language])
-	} else if req.Action == "homegroups" {
-		homegroups(fm, dict.Dictionary[req.Language])
-	} else if req.Action == "prayers" {
-		prayers(fm, dict.Dictionary[req.Language])
-	} else if req.Action == "men&women" {
-		mewAndWomen(fm, dict.Dictionary[req.Language])
-	} else if req.Action == "film" {
-		film(fm, dict.Dictionary[req.Language])
 	} else if req.Action == "divarication" {
 		divarication(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "new" {
 		greeteings(req, fm, dict.Dictionary[req.Language])
+	} else {
+		showDetails(fm, dict.Dictionary[req.Language], req.Action, req.Language)
 	}
 	fm.WriteChatId(req.Id)
 }
