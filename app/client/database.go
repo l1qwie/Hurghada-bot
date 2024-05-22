@@ -8,7 +8,7 @@ import (
 
 func selectDetails(req, lang string, f func(error)) string {
 	var value string
-	err := apptype.DB.QueryRow(fmt.Sprintf("SELECT %s FROM Phrases WHERE name = $1 AND status = 1", lang), req).Scan(&value)
+	err := apptype.DB.QueryRow(fmt.Sprintf("SELECT discrp%s FROM Phrases WHERE name = $1 AND status = 1", lang), req).Scan(&value)
 	if err != nil {
 		f(err)
 	}
@@ -26,7 +26,7 @@ func findName(req string, f func(error)) bool {
 
 func lengthOfNames(f func(error)) []int {
 	var length int
-	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Buttons WHERE status = 1").Scan(&length)
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Phrases WHERE status = 1").Scan(&length)
 	if err != nil {
 		f(err)
 	}
@@ -39,7 +39,7 @@ func lengthOfNames(f func(error)) []int {
 
 func selectNames(lang string, length int, f func(error)) []string {
 	names := make([]string, length)
-	rows, err := apptype.DB.Query(fmt.Sprintf("SELECT %s FROM Buttons WHERE status = 1", lang))
+	rows, err := apptype.DB.Query(fmt.Sprintf("SELECT title%s FROM Phrases WHERE status = 1", lang))
 	if err != nil {
 		f(err)
 	}
@@ -59,7 +59,7 @@ func selectValues(names []string, lang string, length int, f func(error)) []stri
 	var err error
 	data := make([]string, length)
 	for i := 0; i < length && err == nil; i++ {
-		err = apptype.DB.QueryRow(fmt.Sprintf("SELECT name FROM Buttons WHERE status = 1 AND %s = $1", lang), names[i]).Scan(&data[i])
+		err = apptype.DB.QueryRow(fmt.Sprintf("SELECT name FROM Phrases WHERE status = 1 AND title%s = $1", lang), names[i]).Scan(&data[i])
 		if err != nil {
 			f(err)
 		}

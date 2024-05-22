@@ -16,36 +16,36 @@ func chClient() *types.TelegramResponse {
 
 func chWorship() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "worship"
+	tr.Result[0].Query.Data = "1"
 	return tr
 }
 
 func chYouth() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "youthmeeting"
+	tr.Result[0].Query.Data = "2"
 	return tr
 }
 
 func chHomeGroups() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "homegroups"
+	tr.Result[0].Query.Data = "3"
 	return tr
 }
 
 func chPrayers() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "prayers"
+	tr.Result[0].Query.Data = "4"
 	return tr
 }
 
 func chMandW() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "men&women"
+	tr.Result[0].Query.Data = "5"
 	return tr
 }
 
 func chFilm() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "film"
+	tr.Result[0].Query.Data = "6"
 	return tr
 }

@@ -42,7 +42,7 @@ func createUser(req *apptype.Common, f func(error)) {
 }
 
 func retainUser(req *apptype.Common, f func(error)) {
-	_, err := apptype.DB.Exec("UPDATE Users SET action = $1, level = $2, titleru = $3, titleen = $4, discrpru = $5, discrpen = $6 WHERE userId = $3",
+	_, err := apptype.DB.Exec("UPDATE Users SET action = $1, level = $2, titleru = $4, titleen = $5, discrpru = $6, discrpen = $7 WHERE userId = $3",
 		req.Action, req.Level, req.Id, req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn)
 	if err != nil {
 		f(err)

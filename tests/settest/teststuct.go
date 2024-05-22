@@ -2,6 +2,7 @@ package settest
 
 import (
 	"InfoBot/app"
+	"InfoBot/fmtogram/errors"
 	"InfoBot/fmtogram/formatter"
 	"InfoBot/fmtogram/types"
 	"log"
@@ -85,9 +86,9 @@ func (t *TestStuct) DoTest() {
 			//t.prepDatabase()
 			UpdateLevel(t.UpdtLevel[t.TRcount])
 			t.response = app.Receiving(t.request)
-			err := t.response.Complete()
-			if err != nil {
-				panic(err)
+			if t.response.Err != nil {
+				errors.MadeMisstake(t.response.Err)
+				panic(t.response.Err)
 			}
 			t.acceptAnswers()
 			t.Trshcount++

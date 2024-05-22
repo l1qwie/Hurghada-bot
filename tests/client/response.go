@@ -23,7 +23,7 @@ func showSchedule(fm *formatter.Formatter) {
 	fm.AssertChatId(999, true)
 	fm.AssertString("Привет! Это чат-бот церкви Хургады! Мы рады видеть Вас! На этой неделе у нас будут кое-какие активности, и мы будем вас с нетерпением ждать! Ниже нажмите на кнопку, чтобы узнать подробнее", true)
 	fm.AssertInlineKeyboard([]int{1, 1, 1, 1, 1, 1}, []string{"Богослужение", "Молодежка", "Домашняя Группа", "Молитвы", "Мужское&Женское", "Фильм"},
-		[]string{"worship", "youthmeeting", "homegroups", "prayers", "men&women", "film"}, []string{"cmd", "cmd", "cmd", "cmd", "cmd", "cmd"}, true)
+		[]string{"1", "2", "3", "4", "5", "6"}, []string{"cmd", "cmd", "cmd", "cmd", "cmd", "cmd"}, true)
 }
 
 func showWorship(fm *formatter.Formatter) {

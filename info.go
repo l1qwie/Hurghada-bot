@@ -1,8 +1,8 @@
 package main
 
-import "InfoBot/tests/admin"
+import "InfoBot/tests/client"
 
 func main() {
-	//client.Start()
-	admin.Start()
+	client.Start()
+	//admin.Start()
 }

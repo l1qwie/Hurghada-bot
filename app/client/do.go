@@ -5,6 +5,7 @@ import (
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
 	"log"
+	"strconv"
 )
 
 const (
@@ -18,6 +19,14 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 	for i := 0; i < len(crd) && i < len(names); i++ {
 		fm.WriteInlineButtonCmd(names[i], data[i])
 	}
+}
+
+// Checkes is there an int number or not
+// If yes - returns true and the number
+// Else - returns only false (and 0 in var num)
+func intCheck(phrase string) bool {
+	_, err := strconv.Atoi(phrase)
+	return err == nil
 }
 
 func mainMenu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
@@ -57,9 +66,13 @@ func greeteings(req *apptype.Common, fm *formatter.Formatter, dict map[string]st
 }
 
 func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
-	if findName(req.Request, fm.Error) {
-		req.Action = req.Request
-		showDetails(fm, dict, req.Request, req.Language)
+	if intCheck(req.Request) {
+		if findName(req.Request, fm.Error) {
+			req.Action = req.Request
+			showDetails(fm, dict, req.Request, req.Language)
+		} else {
+			mainMenu(req, fm, dict)
+		}
 	} else {
 		mainMenu(req, fm, dict)
 	}
