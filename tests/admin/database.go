@@ -10,3 +10,12 @@ func checkNewActivity() bool {
 	}
 	return count > 0
 }
+
+func checkDelActivity() bool {
+	count := -1
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Phrases WHERE name = 1 AND status = 1").Scan(&count)
+	if err != nil {
+		panic(err)
+	}
+	return count == 0
+}

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"InfoBot/app/client"
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
@@ -109,19 +110,67 @@ func create(req *apptype.Common, fm *formatter.Formatter, dict map[string]string
 	}
 }
 
+func chooseActivity(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 1
+	crd := client.LengthOfNames(fm.Error)
+	names := client.SelectNames(req.Language, len(crd), fm.Error)
+	data := client.SelectValues(names, req.Language, len(crd), fm.Error)
+	crd = append(crd, 1)
+	names = append(names, dict["MainMenu"])
+	data = append(data, "MainMenu")
+	setKb(fm, crd, names, data)
+	fm.WriteString(dict["chooseAnActiv"])
+}
+
+func whichToDel(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Request == "delete" {
+		chooseActivity(req, fm, dict)
+	} else {
+		mainMenu(req, fm, dict)
+	}
+}
+
+func goToDelete(req *apptype.Common, fm *formatter.Formatter, num int, dict map[string]string) {
+	req.DelActivity = num
+	deleteFromDB(req.DelActivity, fm.Error)
+	fm.WriteString(dict["done"])
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
+}
+
+func deleted(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	det, num := client.IntCheck(req.Request)
+	if det {
+		if findActivity(num, fm.Error) {
+			goToDelete(req, fm, num, dict)
+		} else {
+			chooseActivity(req, fm, dict)
+		}
+	} else {
+		chooseActivity(req, fm, dict)
+	}
+}
+
+func delete(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Level == START {
+		whichToDel(req, fm, dict)
+	} else if req.Level == LEVEL1 {
+		deleted(req, fm, dict)
+	}
+}
+
 func changeLvlAndAct(req *apptype.Common) {
 	req.Level = START
 	req.Action = req.Request
 }
 
 func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	changeLvlAndAct(req)
 	if req.Request == "create" {
-		changeLvlAndAct(req)
 		create(req, fm, dict)
 	} else if req.Request == "change" {
 		//change()
 	} else if req.Request == "delete" {
-		//delete()
+		delete(req, fm, dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -138,7 +187,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "change" {
 
 	} else if req.Action == "delete" {
-
+		delete(req, fm, dict.Dictionary[req.Language])
 	} else {
 		mainMenu(req, fm, dict.Dictionary[req.Language])
 	}

@@ -95,3 +95,20 @@ func sentSave(fm *formatter.Formatter) {
 		panic("The new activity wasn't added in the database")
 	}
 }
+
+func chDeleteOpt(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString("Выберите активность, которую хотите удалить", true)
+	fm.AssertInlineKeyboard([]int{1, 1, 1, 1, 1, 1, 1}, []string{"Богослужение", "Молодежка", "Домашняя Группа", "Молитвы", "Мужское&Женское", "Фильм", "Главное Меню"},
+		[]string{"1", "2", "3", "4", "5", "6", "MainMenu"}, []string{"cmd", "cmd", "cmd", "cmd", "cmd", "cmd", "cmd"}, true)
+}
+
+func sentActivity(fm *formatter.Formatter) {
+	usual(fm)
+	fm.AssertString("Данные успешно изменены!", true)
+	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
+	if !checkDelActivity() {
+		panic("The activity wasn't deleted from the database")
+	}
+}

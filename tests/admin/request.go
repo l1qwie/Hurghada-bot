@@ -67,3 +67,15 @@ func chSave() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "save"
 	return tr
 }
+
+func chDelete() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "delete"
+	return tr
+}
+
+func chActivity() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "1"
+	return tr
+}

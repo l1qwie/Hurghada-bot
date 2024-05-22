@@ -4,7 +4,6 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
-	"log"
 	"strconv"
 )
 
@@ -24,18 +23,17 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 // Checkes is there an int number or not
 // If yes - returns true and the number
 // Else - returns only false (and 0 in var num)
-func intCheck(phrase string) bool {
-	_, err := strconv.Atoi(phrase)
-	return err == nil
+func IntCheck(phrase string) (bool, int) {
+	num, err := strconv.Atoi(phrase)
+	return err == nil, num
 }
 
 func mainMenu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Action = "divarication"
-	crd := lengthOfNames(fm.Error)
-	names := selectNames(req.Language, len(crd), fm.Error)
-	log.Print(crd, names)
+	crd := LengthOfNames(fm.Error)
+	names := SelectNames(req.Language, len(crd), fm.Error)
 	fm.WriteString(dict["lookWhatWeHave"])
-	setKb(fm, crd, names, selectValues(names, req.Language, len(crd), fm.Error))
+	setKb(fm, crd, names, SelectValues(names, req.Language, len(crd), fm.Error))
 }
 
 func showDetails(fm *formatter.Formatter, dict map[string]string, req, lang string) {
@@ -66,7 +64,8 @@ func greeteings(req *apptype.Common, fm *formatter.Formatter, dict map[string]st
 }
 
 func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
-	if intCheck(req.Request) {
+	det, _ := IntCheck(req.Request)
+	if det {
 		if findName(req.Request, fm.Error) {
 			req.Action = req.Request
 			showDetails(fm, dict, req.Request, req.Language)

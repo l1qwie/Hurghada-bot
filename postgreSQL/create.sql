@@ -7,7 +7,8 @@ CREATE TABLE Users (
     titleru text DEFAULT '',
     titleen text DEFAULT '',
     discrpru text DEFAULT '',
-    discrpen text DEFAULT ''
+    discrpen text DEFAULT '',
+    delactivity integer DEFAULT 0
 );
 
 CREATE TABLE Phrases (

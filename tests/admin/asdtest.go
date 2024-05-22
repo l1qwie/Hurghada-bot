@@ -20,9 +20,22 @@ func testCreateActivity() {
 	ts.DoTest(true)
 }
 
+func testDeleteActivity() {
+	defer settest.DeleteUser()
+	settest.CreateUser()
+	ts := new(settest.TestStuct)
+	ts.Round = 4
+	ts.Name = "DeleteActivity"
+	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chAdmin, chDelete, chActivity}
+	ts.FuncRes = []func(*formatter.Formatter){greeteings, showOptions, chDeleteOpt, sentActivity}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5, trfunc4, trfunc5}
+	ts.UpdtLevel = []int{0, 1, 3, 1}
+	ts.DoTest(false)
+}
+
 func Start() {
 	apptype.DB = apptype.ConnectToDatabase(true)
-	testCreateActivity()
-	//testDeleteActivity()
+	//testCreateActivity()
+	testDeleteActivity()
 	//testChangeActivity()
 }

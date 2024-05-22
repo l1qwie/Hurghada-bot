@@ -20,6 +20,7 @@ type Common struct {
 	TitleEn     string
 	DiscrpRu    string
 	DiscrpEn    string
+	DelActivity int
 }
 
 func connectData() string {

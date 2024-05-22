@@ -29,6 +29,7 @@ func ru(dict map[string]string) {
 	dict["change"] = "Изменить"
 	dict["create"] = "Создать"
 	dict["delete"] = "Удалить"
+	dict["chooseAnActiv"] = "Выберите активность, которую хотите удалить"
 }
 
 func en(dict map[string]string) {
@@ -58,6 +59,7 @@ func en(dict map[string]string) {
 	dict["change"] = "Change"
 	dict["create"] = "Create"
 	dict["delete"] = "Delete"
+	dict["chooseAnActiv"] = "Select the activity you want to delete"
 }
 
 func init() {

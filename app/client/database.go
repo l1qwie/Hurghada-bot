@@ -24,7 +24,7 @@ func findName(req string, f func(error)) bool {
 	return count > 0
 }
 
-func lengthOfNames(f func(error)) []int {
+func LengthOfNames(f func(error)) []int {
 	var length int
 	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Phrases WHERE status = 1").Scan(&length)
 	if err != nil {
@@ -37,7 +37,7 @@ func lengthOfNames(f func(error)) []int {
 	return crd
 }
 
-func selectNames(lang string, length int, f func(error)) []string {
+func SelectNames(lang string, length int, f func(error)) []string {
 	names := make([]string, length)
 	rows, err := apptype.DB.Query(fmt.Sprintf("SELECT title%s FROM Phrases WHERE status = 1", lang))
 	if err != nil {
@@ -55,7 +55,7 @@ func selectNames(lang string, length int, f func(error)) []string {
 	return names
 }
 
-func selectValues(names []string, lang string, length int, f func(error)) []string {
+func SelectValues(names []string, lang string, length int, f func(error)) []string {
 	var err error
 	data := make([]string, length)
 	for i := 0; i < length && err == nil; i++ {
