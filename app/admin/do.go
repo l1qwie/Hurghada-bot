@@ -4,6 +4,7 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"fmt"
 )
 
 const (
@@ -45,26 +46,29 @@ func titleRu(req *apptype.Common, fm *formatter.Formatter, dict map[string]strin
 
 func titleEn(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Level = 2
+	req.TitleRu = req.Request
 	fm.WriteString(dict["nameEn"])
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func discrpRu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Level = 3
+	req.TitleEn = req.Request
 	fm.WriteString(dict["textRu"])
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func discrpEn(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Level = 4
+	req.DiscrpRu = req.Request
 	fm.WriteString(dict["textEn"])
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
 func sendAlmoseDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Level = 5
-	fm.WriteString(dict["almostDone"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
+	fm.WriteString(fmt.Sprintf(dict["almostDone"], req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn))
+	setKb(fm, []int{1, 1, 1}, []string{dict["save"], dict["change"], dict["MainMenu"]}, []string{"save", "change", "MainMenu"})
 }
 
 func almostDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
@@ -130,7 +134,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "divarication" {
 		divarication(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "create" {
-
+		create(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "change" {
 
 	} else if req.Action == "delete" {

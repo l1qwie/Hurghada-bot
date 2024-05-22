@@ -15,9 +15,9 @@ func testCreateActivity() {
 	ts.Name = "CreateActivity"
 	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chAdmin, chCreate, chNameRu, chNameEn, chTextRu, chTextEn, chSave}
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showOptions, chCreateOpt, sentNameRu, sentNameEn, sentTextRu, sentTextEn, sentSave}
-	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5, trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5, trfunc, trfunc1, trfunc2, trfunc3}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 3, 1, 2, 3, 4, 5}
-	ts.DoTest()
+	ts.DoTest(true)
 }
 
 func Start() {

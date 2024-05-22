@@ -51,10 +51,16 @@ func (t *TestStuct) checkTheWorng() bool {
 	return (t.Wcounter < wrongAnswers) && (t.TRcount != 0)
 }
 
-// The head of making a query from 'user' to bot
-// check the trash and then if all is OK call a func
-// also create a response to previos query from user
-func (t *TestStuct) theHead() {
+func (t *TestStuct) theHeadTheAdmin() {
+	if t.TRcount > 2 && t.TRcount < 7 {
+		t.Trshcount = 3
+		t.request = t.FuncReq[t.TRcount]()
+	} else if !t.checkTheTrash() {
+		t.request = t.FuncReq[t.TRcount]()
+	}
+}
+
+func (t *TestStuct) theHeadTheClient() {
 	if !t.checkTheTrash() {
 		t.request = t.FuncReq[t.TRcount]()
 	}
@@ -70,6 +76,20 @@ func (t *TestStuct) prepDatabase() {
 // Accept bot answers
 // Call a func if it's not a wrong answer
 func (t *TestStuct) acceptAnswers() {
+	if !t.checkTheWorng() || t.TRcount > 2 && t.TRcount < 6 {
+		t.FuncRes[t.TRcount](t.response)
+	}
+}
+
+func (t *TestStuct) acceptAnswersTheAdmin() {
+	if t.TRcount > 2 && t.TRcount < 7 {
+		t.FuncRes[t.TRcount](t.response)
+	} else if !t.checkTheWorng() {
+		t.FuncRes[t.TRcount](t.response)
+	}
+}
+
+func (t *TestStuct) acceptAnswersTheClient() {
 	if !t.checkTheWorng() {
 		t.FuncRes[t.TRcount](t.response)
 	}
@@ -77,12 +97,16 @@ func (t *TestStuct) acceptAnswers() {
 
 // The body for all tests
 // Only this function could be imported
-func (t *TestStuct) DoTest() {
+func (t *TestStuct) DoTest(ad bool) {
 	for t.TRcount < t.Round {
 		t.Trshcount = 0
 		t.Wcounter = 0
 		for t.Trshcount < 3 {
-			t.theHead()
+			if ad {
+				t.theHeadTheAdmin()
+			} else {
+				t.theHeadTheClient()
+			}
 			//t.prepDatabase()
 			UpdateLevel(t.UpdtLevel[t.TRcount])
 			t.response = app.Receiving(t.request)
@@ -90,7 +114,11 @@ func (t *TestStuct) DoTest() {
 				errors.MadeMisstake(t.response.Err)
 				panic(t.response.Err)
 			}
-			t.acceptAnswers()
+			if ad {
+				t.acceptAnswersTheAdmin()
+			} else {
+				t.acceptAnswersTheClient()
+			}
 			t.Trshcount++
 			t.Wcounter++
 		}

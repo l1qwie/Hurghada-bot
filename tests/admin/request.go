@@ -44,7 +44,7 @@ func chTextRu() *types.TelegramResponse {
 	
 	Мы находимся тут: 
 	
-	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/`
 	return tr
 }
 
@@ -58,7 +58,7 @@ func chTextEn() *types.TelegramResponse {
 	
 	We are located here:
 	
-	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/`
 	return tr
 }
 
