@@ -69,7 +69,7 @@ func discrpEn(req *apptype.Common, fm *formatter.Formatter, dict map[string]stri
 func sendAlmoseDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	req.Level = 5
 	fm.WriteString(fmt.Sprintf(dict["almostDone"], req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn))
-	setKb(fm, []int{1, 1, 1}, []string{dict["save"], dict["change"], dict["MainMenu"]}, []string{"save", "change", "MainMenu"})
+	setKb(fm, []int{1, 1}, []string{dict["save"], dict["MainMenu"]}, []string{"save", "MainMenu"})
 }
 
 func almostDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
@@ -77,15 +77,19 @@ func almostDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]st
 	sendAlmoseDone(req, fm, dict)
 }
 
-func done(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
-	saveInDB(req, fm.Error)
+func done(fm *formatter.Formatter, dict map[string]string) {
 	fm.WriteString(dict["done"])
 	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
 }
 
+func Createdone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	saveInDB(req, fm.Error)
+	done(fm, dict)
+}
+
 func doneOrChange(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	if req.Request == "save" {
-		done(req, fm, dict)
+		Createdone(req, fm, dict)
 	} else if req.Request == "change" {
 		req.Action = req.Request
 		//change()
@@ -110,7 +114,7 @@ func create(req *apptype.Common, fm *formatter.Formatter, dict map[string]string
 	}
 }
 
-func chooseActivity(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+func chooseActivity(req *apptype.Common, fm *formatter.Formatter, str string, dict map[string]string) {
 	req.Level = 1
 	crd := client.LengthOfNames(fm.Error)
 	names := client.SelectNames(req.Language, len(crd), fm.Error)
@@ -119,12 +123,12 @@ func chooseActivity(req *apptype.Common, fm *formatter.Formatter, dict map[strin
 	names = append(names, dict["MainMenu"])
 	data = append(data, "MainMenu")
 	setKb(fm, crd, names, data)
-	fm.WriteString(dict["chooseAnActiv"])
+	fm.WriteString(str)
 }
 
 func whichToDel(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	if req.Request == "delete" {
-		chooseActivity(req, fm, dict)
+		chooseActivity(req, fm, dict["chooseAnActiv"], dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -133,8 +137,7 @@ func whichToDel(req *apptype.Common, fm *formatter.Formatter, dict map[string]st
 func goToDelete(req *apptype.Common, fm *formatter.Formatter, num int, dict map[string]string) {
 	req.DelActivity = num
 	deleteFromDB(req.DelActivity, fm.Error)
-	fm.WriteString(dict["done"])
-	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
+	done(fm, dict)
 }
 
 func deleted(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
@@ -143,10 +146,10 @@ func deleted(req *apptype.Common, fm *formatter.Formatter, dict map[string]strin
 		if findActivity(num, fm.Error) {
 			goToDelete(req, fm, num, dict)
 		} else {
-			chooseActivity(req, fm, dict)
+			chooseActivity(req, fm, dict["chooseAnActiv"], dict)
 		}
 	} else {
-		chooseActivity(req, fm, dict)
+		chooseActivity(req, fm, dict["chooseAnActiv"], dict)
 	}
 }
 
@@ -155,6 +158,108 @@ func delete(req *apptype.Common, fm *formatter.Formatter, dict map[string]string
 		whichToDel(req, fm, dict)
 	} else if req.Level == LEVEL1 {
 		deleted(req, fm, dict)
+	}
+}
+
+func startChanges(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Request == "change" {
+		chooseActivity(req, fm, dict["cooseAnActivToChange"], dict)
+	} else {
+		mainMenu(req, fm, dict)
+	}
+}
+
+func chooseChangAble(req *apptype.Common, num int, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 2
+	req.DelActivity = num
+	fm.WriteString(dict["WhatyouwantChange"])
+	setKb(fm, []int{1, 1, 1}, []string{dict["title"], dict["discrp"], dict["MainMenu"]}, []string{"title", "discrp", "MainMenu"})
+}
+
+func changeable(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	det, num := client.IntCheck(req.Request)
+	if det {
+		if findActivity(num, fm.Error) {
+			chooseChangAble(req, num, fm, dict)
+		} else {
+			chooseActivity(req, fm, dict["cooseAnActivToChange"], dict)
+		}
+	} else {
+		chooseActivity(req, fm, dict["cooseAnActivToChange"], dict)
+	}
+}
+
+func bodyChanges(req *apptype.Common, lang string, fm *formatter.Formatter, dict map[string]string) {
+	dataRu, dataEn := selectData(req.Changeable, req.DelActivity, fm.Error)
+	fm.WriteString(fmt.Sprintf(dict["thisisdata"], dict[req.Changeable], dataRu, dataEn, dict[lang]))
+	setKb(fm, []int{1}, []string{dict["MainMenu"]}, []string{"MainMenu"})
+}
+
+func changingRu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 3
+	req.Changeable = req.Request
+	bodyChanges(req, "Rus", fm, dict)
+}
+
+func sendChangesRu(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Request == "title" || req.Request == "discrp" {
+		changingRu(req, fm, dict)
+	} else {
+		chooseChangAble(req, req.DelActivity, fm, dict)
+	}
+}
+
+func sendChangeEn(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 4
+	req.ChangesRu = req.Request
+	bodyChanges(req, "Engl", fm, dict)
+}
+
+func bodysendAlomostDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	ttru, tten, disru, disen := selectAllData(req.DelActivity, fm.Error)
+	if req.Changeable == "title" {
+		ttru = req.ChangesRu
+		tten = req.ChangesEn
+	} else {
+		disru = req.ChangesRu
+		disen = req.ChangesEn
+	}
+	fm.WriteString(fmt.Sprintf(dict["almoseChdone"], ttru, tten, disru, disen))
+	setKb(fm, []int{1, 1}, []string{dict["save"], dict["MainMenu"]}, []string{"save", "MainMenu"})
+}
+
+func sendAlmostDoneCh(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 5
+	req.ChangesEn = req.Request
+	bodysendAlomostDone(req, fm, dict)
+}
+
+func saveChanges(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	saveChangesDB(req, fm.Error)
+	done(fm, dict)
+}
+
+func changesDone(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Request == "save" {
+		saveChanges(req, fm, dict)
+	} else {
+		bodysendAlomostDone(req, fm, dict)
+	}
+}
+
+func change(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Level == START {
+		startChanges(req, fm, dict)
+	} else if req.Level == LEVEL1 {
+		changeable(req, fm, dict)
+	} else if req.Level == LEVEL2 {
+		sendChangesRu(req, fm, dict)
+	} else if req.Level == LEVEL3 {
+		sendChangeEn(req, fm, dict)
+	} else if req.Level == LEVEL4 {
+		sendAlmostDoneCh(req, fm, dict)
+	} else if req.Level == LEVEL5 {
+		changesDone(req, fm, dict)
 	}
 }
 
@@ -168,7 +273,7 @@ func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]
 	if req.Request == "create" {
 		create(req, fm, dict)
 	} else if req.Request == "change" {
-		//change()
+		change(req, fm, dict)
 	} else if req.Request == "delete" {
 		delete(req, fm, dict)
 	} else {
@@ -185,7 +290,7 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	} else if req.Action == "create" {
 		create(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "change" {
-
+		change(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "delete" {
 		delete(req, fm, dict.Dictionary[req.Language])
 	} else {

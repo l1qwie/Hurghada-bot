@@ -17,7 +17,7 @@ func testShowSchedule() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3}
 	ts.UpdtLevel = []int{0, 1}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowWorship() {
@@ -30,7 +30,7 @@ func testShowWorship() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showWorship}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowYouthMeeting() {
@@ -43,7 +43,7 @@ func testShowYouthMeeting() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showYouth}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowHomeGroups() {
@@ -56,7 +56,7 @@ func testShowHomeGroups() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showHomeGroups}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowPrayers() {
@@ -69,7 +69,7 @@ func testShowPrayers() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showPrayers}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowMenAndWomen() {
@@ -82,7 +82,7 @@ func testShowMenAndWomen() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showMandW}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func testShowFilm() {
@@ -95,7 +95,7 @@ func testShowFilm() {
 	ts.FuncRes = []func(*formatter.Formatter){greeteings, showSchedule, showFilm}
 	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5}
 	ts.UpdtLevel = []int{0, 1, 2}
-	ts.DoTest(false)
+	ts.DoTest(false, false)
 }
 
 func Start() {

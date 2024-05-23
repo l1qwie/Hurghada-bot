@@ -51,6 +51,15 @@ func (t *TestStuct) checkTheWorng() bool {
 	return (t.Wcounter < wrongAnswers) && (t.TRcount != 0)
 }
 
+func (t *TestStuct) theHeadTheAdminCh() {
+	if t.TRcount > 4 && t.TRcount < 7 {
+		t.Trshcount = 3
+		t.request = t.FuncReq[t.TRcount]()
+	} else if !t.checkTheTrash() {
+		t.request = t.FuncReq[t.TRcount]()
+	}
+}
+
 func (t *TestStuct) theHeadTheAdmin() {
 	if t.TRcount > 2 && t.TRcount < 7 {
 		t.Trshcount = 3
@@ -81,6 +90,14 @@ func (t *TestStuct) acceptAnswers() {
 	}
 }
 
+func (t *TestStuct) acceptAnswersTheAdminCh() {
+	if t.TRcount > 4 && t.TRcount < 7 {
+		t.FuncRes[t.TRcount](t.response)
+	} else if !t.checkTheWorng() {
+		t.FuncRes[t.TRcount](t.response)
+	}
+}
+
 func (t *TestStuct) acceptAnswersTheAdmin() {
 	if t.TRcount > 2 && t.TRcount < 7 {
 		t.FuncRes[t.TRcount](t.response)
@@ -97,13 +114,17 @@ func (t *TestStuct) acceptAnswersTheClient() {
 
 // The body for all tests
 // Only this function could be imported
-func (t *TestStuct) DoTest(ad bool) {
+func (t *TestStuct) DoTest(ad, change bool) {
 	for t.TRcount < t.Round {
 		t.Trshcount = 0
 		t.Wcounter = 0
 		for t.Trshcount < 3 {
 			if ad {
-				t.theHeadTheAdmin()
+				if change {
+					t.theHeadTheAdminCh()
+				} else {
+					t.theHeadTheAdmin()
+				}
 			} else {
 				t.theHeadTheClient()
 			}
@@ -115,7 +136,11 @@ func (t *TestStuct) DoTest(ad bool) {
 				panic(t.response.Err)
 			}
 			if ad {
-				t.acceptAnswersTheAdmin()
+				if change {
+					t.acceptAnswersTheAdminCh()
+				} else {
+					t.acceptAnswersTheAdmin()
+				}
 			} else {
 				t.acceptAnswersTheClient()
 			}

@@ -79,3 +79,27 @@ func chActivity() *types.TelegramResponse {
 	tr.Result[0].Query.Data = "1"
 	return tr
 }
+
+func chChange() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "change"
+	return tr
+}
+
+func chChangeable() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "title"
+	return tr
+}
+
+func chNewTitleRu() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "Церковная встреча"
+	return tr
+}
+
+func chNewTitleEn() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "Church meeting"
+	return tr
+}

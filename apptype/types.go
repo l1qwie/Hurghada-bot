@@ -21,6 +21,9 @@ type Common struct {
 	DiscrpRu    string
 	DiscrpEn    string
 	DelActivity int
+	Changeable  string
+	ChangesRu   string
+	ChangesEn   string
 }
 
 func connectData() string {
