@@ -13,7 +13,10 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
 		dbRetrieveUser(req, fm.Error)
 		if req.Request == "admin" {
 			req.Action = "divarication"
-			changeStatus(req.Id, fm.Error)
+			changeStatus(req.Id, 1, fm.Error)
+		} else if req.Request == "client" {
+			req.Action = "divarication"
+			changeStatus(req.Id, 0, fm.Error)
 		}
 	} else {
 		createUser(req, fm.Error)

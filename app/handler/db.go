@@ -50,8 +50,8 @@ func retainUser(req *apptype.Common, f func(error)) {
 	}
 }
 
-func changeStatus(userId int, f func(error)) {
-	_, err := apptype.DB.Exec("UPDATE Users SET isadmin = 1 WHERE userId = $1", userId)
+func changeStatus(userId, status int, f func(error)) {
+	_, err := apptype.DB.Exec("UPDATE Users SET isadmin = $1 WHERE userId = $2", status, userId)
 	if err != nil {
 		f(err)
 	}
