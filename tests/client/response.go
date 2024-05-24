@@ -39,7 +39,7 @@ func showWorship(fm *formatter.Formatter) {
 	
 	Мы находимся тут: 
 	
-	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`, true)
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 }
 
@@ -56,7 +56,7 @@ func showYouth(fm *formatter.Formatter) {
 	
 	Наше главное здание тут:
 	
-	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu`, true)
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 }
 
@@ -72,15 +72,14 @@ func showHomeGroups(fm *formatter.Formatter) {
 	Ведущий: Антон Ахмедов
 	Начало: 18:00
 	Адрес: Scandic Resort Hurghada
-	Ссылка на адрес: https://www.google.com/maps/place/Scandic+Resort+Hurghada/@27.2429138,33.8417842,18.21z/data=!4m12!1m5!3m4!2zMzbCsDUzJzM2LjQiTiAzMMKwNDInMzQuNSJF!8m2!3d36.893445!4d30.709591!3m5!1s0x14528790e20fc35b:0xfed8fd8e22bb8a2b!8m2!3d27.2431856!4d33.8431078!16s%2Fg%2F11kjzg21ft?entry=ttu
+	Ссылка на адрес: https://www.google.com/maps/place/Scandic+Resort+Hurghada/@27.2429138,33.8417842,18.21z/
 	
 	Группа 2:
 	Ведущий: Авраам Израилев
 	Начало: 19:00
 	Адрес: Иерусалим
-	Ссылка на адрес: https://www.google.com/maps/place/ZARIFFA+-+%D7%91%D7%99%D7%AA+%D7%A7%D7%A4%D7%94+%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%9E%D7%99%E2%80%AD/@31.7556663,35.2016948,18.16z/data=!4m6!3m5!1s0x1502d7e8f28c54b9:0x3cb970274e20cd2d!8m2!3d31.755949!4d35.2027168!16s%2Fg%2F11bxf42czk?entry=ttu`, true)
+	Ссылка на адрес: https://www.google.com/maps/place/`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
-
 }
 
 func showPrayers(fm *formatter.Formatter) {
@@ -94,7 +93,7 @@ func showPrayers(fm *formatter.Formatter) {
 	
 	Мы находимся тут:
 	
-	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/data=!4m6!3m5!1s0x145287d03816e835:0xbae794404ccd749!8m2!3d27.2508627!4d33.8319995!16s%2Fg%2F11c2ldpk6q?entry=ttu
+	https://www.google.com/maps/place/Good+Shepered+Association/@27.2508176,33.8318688,20.78z/
 	
 	Ссылка на Zoom будет отсылаться в наш общий церковный чат. Присоединяйтесь!`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
@@ -111,11 +110,11 @@ func showMandW(fm *formatter.Formatter) {
 	
 	Начало мужской группы (Пн): 9:00
 	Адрес: Дом напротив Tiba Perfumes
-	Ссылка на адрес: https://www.google.com/maps/place/Tiba+Perfumes/@27.2233417,33.8372355,19.79z/data=!4m6!3m5!1s0x14528762fd7d5db9:0x2754c6b5443c6e1!8m2!3d27.222997!4d33.8375066!16s%2Fg%2F11fprzqxk0?entry=ttu
+	Ссылка на адрес: https://www.google.com/maps/place/Tiba+Perfumes/@27.2233417,33.8372355,19.79z/
 	
 	Начало женской группы (Чт): 10:00
 	Адрес: Arabia Azur Resort
-	Ссылка на адрес: https://www.google.com/maps/place/Arabia+Azur+Resort/@27.2404984,33.8424506,18.13z/data=!4m9!3m8!1s0x145287ef8202025d:0x50c76277c8a88d29!5m2!4m1!1i2!8m2!3d27.2403457!4d33.844051!16s%2Fg%2F1hc1ykfp5?entry=ttu`, true)
+	Ссылка на адрес: https://www.google.com/maps/place/Arabia+Azur+Resort/@27.2404984,33.8424506,18.13z/`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 }
 
@@ -129,7 +128,7 @@ func showFilm(fm *formatter.Formatter) {
 	Хозяин виллы: Мойша Исраель
 	Начало: 20:00
 	Фильм: Гладиатор (2000)
-	Ссылка на адрес: https://www.google.com/maps/place/27%C2%B016'43.7%22N+33%C2%B046'32.3%22E/@27.278802,33.7749933,19z/data=!3m1!4b1!4m4!3m3!8m2!3d27.278802!4d33.775637?entry=ttu
+	Ссылка на адрес: https://www.google.com/maps/place/
 	
 	Совет: лучше всего добираться на такси, так как ехать далеко и автобусы почти не ходят`, true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)

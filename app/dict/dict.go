@@ -30,6 +30,29 @@ func ru(dict map[string]string) {
 	dict["create"] = "Создать"
 	dict["delete"] = "Удалить"
 	dict["chooseAnActiv"] = "Выберите активность, которую хотите удалить"
+	dict["cooseAnActivToChange"] = "Выберите активность, которую хотите изменить"
+	dict["WhatyouwantChange"] = "Что вы хотите изменить?"
+	dict["thisisdata"] = `На данный момент %s у этой активности такое:
+
+	(ru): %s
+	(en): %s
+	
+	Напишите новое название на %s`
+	dict["almoseChdone"] = `Вы практически закончили изменения. Осталось все подтвердить
+
+	Название (ru): %s
+	
+	Название (en): %s
+	
+	Описание (ru): %s
+	
+	Описание (en): %s
+	
+	Если все верно, то нажмите сохранить`
+	dict["title"] = "Название"
+	dict["discrp"] = "Описание"
+	dict["Rus"] = "Русском языке"
+	dict["Engl"] = "Английском языке"
 }
 
 func en(dict map[string]string) {
@@ -60,6 +83,29 @@ func en(dict map[string]string) {
 	dict["create"] = "Create"
 	dict["delete"] = "Delete"
 	dict["chooseAnActiv"] = "Select the activity you want to delete"
+	dict["cooseAnActivToChange"] = "Select the activity you want to edit"
+	dict["WhatyouwantChange"] = "What do you want to change?"
+	dict["thisisdata"] = `Currently, the %s of this activity is:
+
+	(ru): %s
+	(en): %s
+	
+	Enter a new name in %s`
+	dict["almoseChdone"] = `You have almost finished making changes. Just confirm everything
+
+	Title (ru): %s
+	
+	Title (en): %s
+	
+	Description (ru): %s
+	
+	Description (en): %s
+	
+	If everything is correct, click save`
+	dict["title"] = "Title"
+	dict["discrp"] = "Description"
+	dict["Rus"] = "Russian"
+	dict["Engl"] = "English"
 }
 
 func init() {

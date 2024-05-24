@@ -13,7 +13,11 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
 		dbRetrieveUser(req, fm.Error)
 		if req.Request == "admin" {
 			req.Action = "divarication"
-			changeStatus(req.Id, fm.Error)
+			changeStatus(req.Id, 1, fm.Error)
+		} else if req.Request == "client" {
+			req.Action = "divarication"
+			changeStatus(req.Id, 0, fm.Error)
+			log.Print("How it could be possiple?")
 		}
 	} else {
 		createUser(req, fm.Error)
@@ -31,6 +35,10 @@ func logs(req *apptype.Common) {
 	log.Printf("req.TitleEn = %s", req.TitleEn)
 	log.Printf("req.DiscrpRu = %s", req.DiscrpRu)
 	log.Printf("req.DiscrpEn = %s", req.DiscrpEn)
+	log.Printf("req.DelActivity = %d", req.DelActivity)
+	log.Printf("req.Changeable = %s", req.Changeable)
+	log.Printf("req.ChangesRu = %s", req.ChangesRu)
+	log.Printf("req.ChangesEn = %s", req.ChangesEn)
 }
 
 func Redirect(req *apptype.Common, fm *formatter.Formatter) {
