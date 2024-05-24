@@ -17,6 +17,7 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
 		} else if req.Request == "client" {
 			req.Action = "divarication"
 			changeStatus(req.Id, 0, fm.Error)
+			log.Print("How it could be possiple?")
 		}
 	} else {
 		createUser(req, fm.Error)
