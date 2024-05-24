@@ -5,6 +5,7 @@ import (
 	"InfoBot/app/client"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"fmt"
 	"log"
 )
 
@@ -51,6 +52,9 @@ func Redirect(req *apptype.Common, fm *formatter.Formatter) {
 		} else {
 			client.Dispatcher(req, fm)
 		}
+	}
+	if fm.Err != nil {
+		log.Print(fmt.Errorf("YOU HAVE AN ERROR! %d", fm.Err))
 	}
 	retainUser(req, fm.Error)
 }
