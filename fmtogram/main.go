@@ -47,12 +47,10 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 
 func Worker(input chan *types.TelegramResponse, mesoutput chan *types.MessageResponse, output chan *formatter.Formatter) {
 	var (
-		fm         *formatter.Formatter
-		userstruct *types.TelegramResponse
+		fm *formatter.Formatter
 	)
 	for len(input) > 0 {
-		userstruct = <-input
-		fm = app.Receiving(userstruct)
+		fm = app.Receiving(<-input)
 		if err := fm.Complete(); err == nil {
 			output <- fm
 		}
