@@ -93,15 +93,18 @@ func Updates(offset *int, telegramResponse *types.TelegramResponse) (err error) 
 		response *http.Response
 		body     []byte
 	)
-
+	log.Print(offset, telegramResponse)
 	url := fmt.Sprintf(types.HttpsRequest+"bot%s/getUpdates?limit=1&offset=%d", types.TelebotToken, *offset)
 	response, err = http.Get(url)
+	log.Print(*response)
 	if err == nil {
 		body, err = io.ReadAll(response.Body)
 	}
+	log.Print(string(body))
 	if err == nil {
 		err = handlerTelegramResponse(body, telegramResponse)
 	}
+	log.Print(string(body), telegramResponse)
 	response.Body.Close()
 	return err
 }

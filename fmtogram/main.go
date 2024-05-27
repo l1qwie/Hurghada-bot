@@ -24,11 +24,14 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 		err = executer.RequestOffset(types.TelebotToken, &offset)
 	}
 	for {
+		log.Print("The cycle started")
 		telegramResponse = new(types.TelegramResponse)
 		err = executer.Updates(&offset, telegramResponse)
+		log.Print(telegramResponse)
 		if len(telegramResponse.Result) != 0 && err == nil {
 			chatID = helper.ReturnChatId(telegramResponse)
 			index = reg.Seeker(chatID)
+			log.Print(chatID, index)
 			if index != executer.None {
 				reg.Reg[index].Chu <- telegramResponse
 			} else {
@@ -37,10 +40,12 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 				reg.Reg[index].Chu = make(chan *types.TelegramResponse, 1)
 				reg.Reg[index].Chu <- telegramResponse
 			}
+			log.Print(reg.Reg)
 			go Worker(reg.Reg[index].Chu, reg.Reg[index].Chb, output)
 			offset = offset + 1
+			log.Print("The cycle ended")
 		} else if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 	}
 }
