@@ -47,6 +47,7 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 		} else if err != nil {
 			panic(err)
 		}
+		time.Sleep(time.Second / 20)
 	}
 }
 
