@@ -165,12 +165,12 @@ func RequestOffset(TelebotToken string, offset *int) (err error) {
 	Url := fmt.Sprintf("https://api.telegram.org/bot%s/getUpdates?limit=1", url.PathEscape(TelebotToken))
 	response, err = http.Get(Url)
 	if err == nil {
+		defer response.Body.Close()
 		body, err = io.ReadAll(response.Body)
 	}
 	if err == nil {
 		err = handlerOffsetResponse(body, offset)
 	}
-	response.Body.Close()
 
 	return err
 }

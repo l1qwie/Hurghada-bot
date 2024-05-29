@@ -22,6 +22,7 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 	err = executer.RequestOffset(types.TelebotToken, &offset)
 	for err != nil {
 		err = executer.RequestOffset(types.TelebotToken, &offset)
+		time.Sleep(time.Second / 10)
 	}
 	for {
 		log.Print("The cycle started")
@@ -47,7 +48,7 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 		} else if err != nil {
 			panic(err)
 		}
-		time.Sleep(time.Second / 20)
+		time.Sleep(time.Second / 10)
 	}
 }
 
