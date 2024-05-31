@@ -46,7 +46,7 @@ func pollResponse(output chan *formatter.Formatter, reg *executer.RegTable) {
 			offset = offset + 1
 			log.Print("The cycle ended")
 		} else if err != nil {
-			panic(err)
+			log.Print(err)
 		}
 		time.Sleep(time.Second / 10)
 	}
@@ -68,7 +68,7 @@ func pushRequest(requests <-chan *formatter.Formatter, reg *executer.RegTable) {
 	for r := range requests {
 		mes, err := r.Make()
 		if err != nil {
-			panic(err)
+			log.Print(err)
 		}
 		if mes.Ok {
 			index := reg.Seeker(mes.Result.Chat.Id)
