@@ -31,17 +31,17 @@ func GetpostRequest(url string, Buffer *bytes.Buffer, contenttype string) (body 
 		client   *http.Client
 	)
 	request, err = http.NewRequest("POST", url, Buffer)
-	if err != nil {
-		panic(err)
+	if err == nil {
+		request.Header.Set("Content-Type", contenttype)
+		client = &http.Client{}
+		response, err = client.Do(request)
+		if err == nil {
+			defer response.Body.Close()
+		}
 	}
-
-	request.Header.Set("Content-Type", contenttype)
-	client = &http.Client{}
-	response, err = client.Do(request)
 	if err != nil {
-		panic(err)
+		log.Printf("Ошибка при попытке отправить request к Telegram GetpostRequest(): %s", err)
 	}
-	defer response.Body.Close()
 	return io.ReadAll(response.Body)
 }
 
@@ -83,7 +83,7 @@ func Send(buf *bytes.Buffer, function, contenttype string, unmarshal bool) (mes 
 		}
 	}
 	if err != nil {
-		panic(err)
+		log.Printf("Ошикба при попытке отправить request к Telegram Send(): %s", err)
 	}
 	return mes
 }
@@ -109,13 +109,51 @@ func Updates(offset *int, telegramResponse *types.TelegramResponse) (err error) 
 	return err
 }
 
-func handlerTelegramResponse(response []byte, telegramResponse *types.TelegramResponse) (err error) {
-	err = json.Unmarshal(response, &telegramResponse)
+func firstMisstake(response []byte) (string, bool) {
+	var (
+		monitor bool
+		mes     string
+	)
+	dresp := new(types.BadResponse)
+	err := json.Unmarshal(response, &dresp)
 	if err == nil {
-		if !telegramResponse.Ok {
-			err = fmt.Errorf(fmt.Sprintf("Telegram API вернул ошибку: %s", telegramResponse.Error.Message))
+		if dresp != nil {
+			if !dresp.Ok {
+				mes = fmt.Sprintf("Telegram вернул ошибку: %s", dresp.Description)
+				monitor = false
+			}
 		}
+	} else {
+		mes = fmt.Sprintf("Ошибка при попытке Unmarshal: %s", err)
 	}
+	return mes, monitor
+}
+
+func secondMisstake(response []byte, tr *types.TelegramResponse) string {
+	var mes string
+	err := json.Unmarshal(response, &tr)
+	if err == nil {
+		if !tr.Ok {
+			if tr.Error != nil {
+				mes = fmt.Sprintf("Telegram вернул ошибку: %s", tr.Error.Message)
+			}
+		}
+	} else {
+		mes = fmt.Sprintf("Ошибка при попытке Unmarshal: %s", err)
+	}
+	return mes
+}
+
+func handlerTelegramResponse(response []byte, telegramResponse *types.TelegramResponse) error {
+	var (
+		monitor bool
+		descrip string
+	)
+	descrip, monitor = firstMisstake(response)
+	if monitor {
+		descrip = secondMisstake(response, telegramResponse)
+	}
+	err := fmt.Errorf(descrip)
 	return err
 }
 
