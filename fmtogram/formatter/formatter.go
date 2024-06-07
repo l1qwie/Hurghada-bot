@@ -6,6 +6,7 @@ import (
 	"InfoBot/fmtogram/types"
 	"bytes"
 	"encoding/json"
+	"log"
 )
 
 func (fm *Formatter) WriteString(lineoftext string) {
@@ -147,6 +148,7 @@ func (fm *Formatter) Make() (*types.MessageResponse, error) {
 		}
 	}
 	if err == nil {
+		log.Print("THE MESSAGE ID DELETE OR EDIT AND MARSHAL STATUS: ", fm.DeleteMessage.MessageId, fm.Message.MessageId, mshstat)
 		res = executer.Send(buf, f, fm.contenttype, mshstat)
 	}
 
