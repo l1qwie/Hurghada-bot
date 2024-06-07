@@ -159,8 +159,10 @@ func (reg *RegTable) Seeker(chatID int) (index int) {
 		for i < len(reg.Reg) && reg.Reg[i].UserId != chatID {
 			i++
 		}
-		if reg.Reg[i].UserId == chatID {
-			index = i
+		if i < len(reg.Reg) {
+			if reg.Reg[i].UserId == chatID {
+				index = i
+			}
 		}
 	}
 	return index
