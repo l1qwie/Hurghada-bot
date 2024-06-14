@@ -5,4 +5,4 @@ rm:
 up:
 	docker compose -f docker-compose.yml up --force-recreate
 rb:
-	docker build . -t infobot-app
+	docker build . -t hurghada-bot-app

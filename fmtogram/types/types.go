@@ -26,8 +26,6 @@ func ConnectToDatabase(doc bool) *sql.DB {
 	)
 	if doc {
 		db, err = sql.Open("postgres", docConnect())
-	} else {
-		db, err = sql.Open("postgres", connectData())
 	}
 	if err != nil {
 		panic(err)
@@ -41,6 +39,7 @@ func ConnectToDatabase(doc bool) *sql.DB {
 
 type InfMessage struct {
 	TypeFrom User    `json:"from"`
+	Chat     Chat    `json:"chat"`
 	Text     string  `json:"text"`
 	Photo    []Photo `json:"photo"`
 	Video    []Video `json:"video"`
@@ -63,8 +62,9 @@ type TelegramUpdate struct {
 }
 
 type Callback struct {
-	TypeFrom User   `json:"from"`
-	Data     string `json:"data"`
+	TypeFrom User    `json:"from"`
+	Data     string  `json:"data"`
+	Message  Message `json:"message"`
 }
 
 type TelegramError struct {
@@ -101,6 +101,7 @@ type Media struct {
 
 type SendMessagePayload struct {
 	ChatID      int     `json:"chat_id"`
+	ChatName    string  `json:"chat_id"`
 	Text        string  `json:"text"`
 	ReplyMarkup string  `json:"reply_markup"`
 	Photo       string  `json:"photo"`
@@ -116,7 +117,8 @@ type DelMessage struct {
 }
 
 type Chat struct {
-	Id int `json:"id"`
+	Id   int    `json:"id"`
+	Type string `json:"type"`
 }
 
 type Photo struct {
@@ -161,9 +163,6 @@ type Responser interface {
 	Updates(string, *int, *TelegramResponse) error
 }
 
-func connectData() string {
-	return fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s", username, password, dbname, sslmode)
-}
 func docConnect() string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		docHost,

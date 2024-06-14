@@ -134,6 +134,18 @@ func (tfm *Formatter) AssertChatId(chatID int, condition bool) (err error) {
 	return err
 }
 
+func (tfm *Formatter) AssertChatName(chatName string, condition bool) (err error) {
+	if tfm.Message.ChatName != fmt.Sprint("@", chatName) {
+		err = errors.AssertTest(fmt.Sprint(tfm.Message.ChatName), "WriteChatName", fmt.Sprint(chatName), "AssertChatName")
+	}
+	if condition {
+		if err != nil {
+			panic(err)
+		}
+	}
+	return err
+}
+
 func (tfm *Formatter) AssertParseMode(parseMode string, condition bool) (err error) {
 	if tfm.Message.ParseMode != parseMode {
 		err = errors.AssertTest(fmt.Sprintf(tfm.Message.ParseMode), "WriteParseMode", fmt.Sprint(parseMode), "AssertParseMode")

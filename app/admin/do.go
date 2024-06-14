@@ -5,7 +5,9 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"InfoBot/fmtogram/types"
 	"fmt"
+	"log"
 )
 
 const (
@@ -297,4 +299,49 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 		mainMenu(req, fm, dict.Dictionary[req.Language])
 	}
 	fm.WriteChatId(req.Id)
+}
+
+func makeTheDataCooler(row []interface{}) ([]string, error) {
+	res := make([]string, len(row))
+	for i := 0; i < len(row); i++ {
+		res[i] = fmt.Sprintf("%v", row[i])
+	}
+	time, err := timeToHHMM(res[4])
+	if err == nil {
+		res[4] = time
+	} else {
+		err = fmt.Errorf("invalid time format")
+	}
+	return res, err
+}
+
+func prepareMessage(id int, inf []string) *formatter.Formatter {
+	fm := new(formatter.Formatter)
+	fm.WriteChatName("testdvijhurghada")
+	fm.WriteString(fmt.Sprintf(dict.Dictionary["ru"]["SampleChannel"], inf[1], inf[2], inf[3], inf[4], inf[5]))
+	fm.WriteParseMode(types.HTML)
+	setKb(fm, []int{1}, []string{"Я приду!"}, []string{fmt.Sprint(id)})
+	if err := fm.Complete(); err == nil {
+		err = fm.SendToChannel()
+		if err != nil {
+			log.Printf("YOU HAVE AN ERROR DURING THE PROCCESS OF SENDING A MESSAGE TO A CHANNEL: %v", err)
+		}
+	} else {
+		log.Printf("YOU HAVE AN ERROR DURING THE PROCCESS OF PREPARE A MESSAGE: %v", err)
+	}
+	return fm
+}
+
+func FromGoogle(row []interface{}) (fm *formatter.Formatter) {
+	inf, err := makeTheDataCooler(row)
+	if err == nil {
+		id, err := saveToDatabase(inf)
+		if err == nil {
+			fm = prepareMessage(id, inf)
+		}
+	}
+	if err != nil {
+		log.Printf("You made a mistake: %v", err)
+	}
+	return fm
 }

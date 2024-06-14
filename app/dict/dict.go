@@ -53,6 +53,7 @@ func ru(dict map[string]string) {
 	dict["discrp"] = "Описание"
 	dict["Rus"] = "Русском языке"
 	dict["Engl"] = "Английском языке"
+	dict["SampleChannel"] = "Название: <b>%s</b>\n\n\nОписание <b>%s</b>\n\nДата и Время: <b>%s %s</b>\n\nСсылка на место проведения: %s"
 }
 
 func en(dict map[string]string) {

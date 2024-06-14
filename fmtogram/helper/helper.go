@@ -261,3 +261,13 @@ func ReturnMediaReq(req *types.TelegramResponse) ([]types.Media, error) {
 	}
 	return media, err
 }
+
+func ReturnTypeOfChat(req *types.TelegramResponse) string {
+	var res string
+	if req.Result[0].Query.Message.Chat.Type != "" {
+		res = req.Result[0].Query.Message.Chat.Type
+	} else if req.Result[0].Message.Chat.Type != "" {
+		res = req.Result[0].Message.Chat.Type
+	}
+	return res
+}

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"InfoBot/apptype"
+	"log"
 
 	_ "github.com/lib/pq"
 )
@@ -54,5 +55,30 @@ func changeStatus(userId, status int, f func(error)) {
 	_, err := apptype.DB.Exec("UPDATE Users SET isadmin = $1 WHERE userId = $2", status, userId)
 	if err != nil {
 		f(err)
+	}
+}
+
+func findActivity(actid int) bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Dvij WHERE id = $1 AND status != -1", actid).Scan(&count)
+	if err != nil {
+		log.Printf("YOU HAVE AN ERROR IN findActivity(): %v", err)
+	}
+	return count > 0
+}
+
+func findClientWithActivity(userid, actid int) bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE id = $1 AND userid = $2 AND status != -1", actid, userid).Scan(&count)
+	if err != nil {
+		log.Printf("YOU HAVE AND ERROR IN findClientWithActivity(): %v", err)
+	}
+	return count == 0
+}
+
+func registerTheClient(userid, actid int) {
+	_, err := apptype.DB.Exec("INSERT INTO DvijClients (id, userid, notiftime) VALUES ($1, $2, CURRENT_TIMESTAMP)", actid, userid)
+	if err != nil {
+		log.Printf("YOU HAVE AND ERROR IN registerTheClient(): %v", err)
 	}
 }

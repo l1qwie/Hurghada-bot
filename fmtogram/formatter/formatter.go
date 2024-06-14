@@ -6,11 +6,15 @@ import (
 	"InfoBot/fmtogram/types"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 )
 
 func (fm *Formatter) WriteString(lineoftext string) {
 	fm.Message.Text = lineoftext
+}
+func (fm *Formatter) WriteChatName(chatname string) {
+	fm.Message.ChatName = fmt.Sprint("@", chatname)
 }
 
 func (fm *Formatter) WriteChatId(chatID int) {
@@ -153,6 +157,15 @@ func (fm *Formatter) Make() (*types.MessageResponse, error) {
 	}
 
 	return res, err
+}
+
+func (fm *Formatter) SendToChannel() error {
+	fm.ReadyKB()
+	buf, f, err := fm.sendMessage()
+	if err == nil {
+		executer.Send(buf, f, fm.contenttype, true)
+	}
+	return err
 }
 
 func (fm *Formatter) Send() (mes *types.MessageResponse, err error) {

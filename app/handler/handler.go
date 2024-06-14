@@ -12,13 +12,12 @@ import (
 func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
 	if find(req.Id, fm.Error) {
 		dbRetrieveUser(req, fm.Error)
-		if req.Request == "admin" {
+		if req.Request == "/admin" {
 			req.Action = "divarication"
 			changeStatus(req.Id, 1, fm.Error)
-		} else if req.Request == "client" {
+		} else if req.Request == "/client" {
 			req.Action = "divarication"
 			changeStatus(req.Id, 0, fm.Error)
-			log.Print("How it could be possiple?")
 		}
 	} else {
 		createUser(req, fm.Error)
@@ -57,4 +56,20 @@ func Redirect(req *apptype.Common, fm *formatter.Formatter) {
 		log.Print(fmt.Errorf("YOU HAVE AN ERROR! %d", fm.Err))
 	}
 	retainUser(req, fm.Error)
+}
+
+func RegToActivity(req *apptype.Common) {
+	log.Print("SHALOM!")
+	ok, id := client.IntCheck(req.Request)
+	log.Print(ok, id)
+	if ok {
+		log.Print("It was int")
+		if findActivity(id) {
+			log.Print("Found the activity")
+			if findClientWithActivity(req.Id, id) {
+				log.Print("Didn't find the user with the activity")
+				registerTheClient(req.Id, id)
+			}
+		}
+	}
 }

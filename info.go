@@ -1,9 +1,12 @@
 package main
 
-import "InfoBot/fmtogram"
+import (
+	"InfoBot/tests/channel"
+)
 
 func main() {
 	//client.Start()
 	//admin.Start()
-	fmtogram.Start()
+	//fmtogram.Start()
+	channel.Start()
 }

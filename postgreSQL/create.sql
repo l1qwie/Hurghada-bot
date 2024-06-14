@@ -22,3 +22,20 @@ CREATE TABLE Phrases (
     discrpen text DEFAULT '',
     status int DEFAULT 0
 );
+
+CREATE TABLE Dvij (
+    id SERIAL PRIMARY KEY,
+    caption text DEFAULT '',
+    description text DEFAULT '',
+    date text DEFAULT '',
+    time text DEFAULT '',
+    link text DEFAULT '',
+    status int DEFAULT 0
+);
+
+CREATE TABLE DvijClients (
+    id integer PRIMARY KEY,
+    userid BIGINT DEFAULT 0,
+    notiftime TIMESTAMPTZ,
+    status integer DEFAULT 0
+);

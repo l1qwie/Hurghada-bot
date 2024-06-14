@@ -3,6 +3,7 @@ package admin
 import (
 	"InfoBot/apptype"
 	"fmt"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -55,4 +56,29 @@ func saveChangesDB(req *apptype.Common, f func(error)) {
 	if err != nil {
 		f(err)
 	}
+}
+
+func timeToHHMM(timeIn string) (string, error) {
+	var (
+		timeOut string
+		err     error
+		parts   []string
+	)
+	parts = strings.Split(timeIn, ":")
+	if len(parts) == 3 {
+		timeOut = fmt.Sprintf("%s:%s", parts[0], parts[1])
+	} else {
+		err = fmt.Errorf("invalid time format: %s", timeIn)
+	}
+	return timeOut, err
+}
+
+func saveToDatabase(row []string) (int, error) {
+	var id int
+	err := apptype.DB.QueryRow("SELECT nextval('dvij_id_seq')").Scan(&id)
+	if err == nil {
+		_, err = apptype.DB.Exec("INSERT INTO Dvij (id, caption, description, date, time, link) VALUES ($1, $2, $3, $4, $5, $6)",
+			id, row[1], row[2], row[3], row[4], row[5])
+	}
+	return id, err
 }

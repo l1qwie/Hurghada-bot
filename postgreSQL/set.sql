@@ -132,3 +132,4 @@ INSERT INTO Phrases (titleru, titleen, discrpru, discrpen, status) VALUES ('Фи
 	Link to address: https://www.google.com/maps/place/
 	
 	Tip: It is best to take a taxi, as it is far and buses rarely run', 1);
+SET TIMEZONE = 'Africa/Cairo';
