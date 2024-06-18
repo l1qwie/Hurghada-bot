@@ -8,7 +8,7 @@ import (
 func logs(fm *formatter.Formatter) {
 	log.Printf(`fm.Message.Text = "%s"`, fm.Message.Text)
 	log.Printf(`fm.Keyboard.Keyboard = "%v"`, fm.Keyboard.Keyboard)
-	log.Printf(`fm.Message.ChatID = %d`, fm.Message.ChatID)
+	log.Printf(`fm.Message.ChatID = %d`, fm.Message.ChatID.(int))
 }
 
 func greeteings(fm *formatter.Formatter) {

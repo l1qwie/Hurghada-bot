@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
 	"InfoBot/fmtogram/types"
 	"InfoBot/tests/settest"
@@ -55,7 +54,6 @@ func testChangeActivity() {
 }
 
 func Start() {
-	apptype.DB = apptype.ConnectToDatabase(true)
 	testCreateActivity()
 	testDeleteActivity()
 	testChangeActivity()

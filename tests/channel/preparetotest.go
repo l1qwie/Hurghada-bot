@@ -39,7 +39,7 @@ func write(service *sheets.Service, spreadsheetId, rangeToUpdate string) error {
 
 func rewriteToSheet() {
 	srv := getClient()
-	err := write(srv, "1qkMMv2iwW7XSbJiJK2MGHkpZvCavJQ4RXz-Sx2iq7wE", "Ответы на форму (1)!G2")
+	err := write(srv, "1SzQnlwTT6KGKp9oj8JcQEHA0ZvPwh1I_KbvVB2iaY14", "Хургада ответы!G2")
 	if err != nil {
 		panic(err)
 	}

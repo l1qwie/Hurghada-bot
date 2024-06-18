@@ -11,6 +11,11 @@ func mainReq() *types.TelegramResponse {
 					IsBot:    false,
 					Language: "ru",
 				},
+				Message: types.Message{
+					Chat: types.Chat{
+						Type: "private",
+					},
+				},
 			}},
 		},
 	}

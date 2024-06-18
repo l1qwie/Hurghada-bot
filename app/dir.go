@@ -11,7 +11,6 @@ import (
 func Receiving(tr *types.TelegramResponse) *formatter.Formatter {
 	comm := new(apptype.Common)
 	fm := new(formatter.Formatter)
-	apptype.DB = apptype.ConnectToDatabase(true)
 	comm.Request = helper.ReturnText(tr)
 	comm.Id = helper.ReturnChatId(tr)
 	comm.Language = helper.ReturnLanguage(tr)
@@ -19,7 +18,7 @@ func Receiving(tr *types.TelegramResponse) *formatter.Formatter {
 	if typeChat == "private" {
 		handler.Redirect(comm, fm)
 	} else if typeChat == "channel" {
-		handler.RegToActivity(comm)
+		handler.RegToActivity(comm, fm)
 	}
 	return fm
 }

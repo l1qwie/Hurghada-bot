@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
@@ -46,37 +45,42 @@ func updateFlag(service *sheets.Service, spreadsheetId, rangeToUpdate string) er
 	return err
 }
 
-// Start of reading Google Sheets
-func Start() {
-	id := "1qkMMv2iwW7XSbJiJK2MGHkpZvCavJQ4RXz-Sx2iq7wE"
-	counter := 2
-	service := getClient()
-	for {
-		rRange := fmt.Sprintf("Ответы на форму (1)!A%d:G", counter)
-		data, err := readSheet(service, id, rRange)
-		if err == nil {
-			for i, row := range data.Values {
-				flag := fmt.Sprintf("%v", row[6])
-				if flag == "0" || flag == "" {
-					admin.FromGoogle(row)
-					err := updateFlag(service, id, "Ответы на форму (1)!G"+fmt.Sprintf("%d", i+2))
-					if err != nil {
-						log.Printf("Unable to update flag: %v", err)
-					}
-					counter++
-				} else {
-					fmt.Println("Row already processed, skipping.")
+func sendRequest(id, rowrange string, counter int, srv *sheets.Service) {
+	data, err := readSheet(srv, id, rowrange)
+	log.Print(data)
+	if err == nil && len(data.Values) > 0 {
+		for _, row := range data.Values {
+			flag := fmt.Sprintf("%v", row[6])
+			if flag == "0" {
+				admin.FromGoogle(row)
+				err = updateFlag(srv, id, "Хургада ответы!G"+fmt.Sprintf("%d", counter))
+				if err != nil {
+					log.Printf("Unable to update flag: %v", err)
 				}
+				counter++
+			} else {
+				log.Print("Row already processed, skipping")
 			}
 		}
-		fmt.Println("Data processed and flags updated")
-		time.Sleep(time.Second * 10)
+	} else {
+		log.Printf("Error while reading the Sheet: %v", err)
 	}
+	log.Print("err == nil && len(data.Values) > 0", err == nil && len(data.Values) > 0)
+}
+
+// Start of reading Google Sheets
+func Start() {
+	counter := 2
+	service := getClient()
+	id := "1SzQnlwTT6KGKp9oj8JcQEHA0ZvPwh1I_KbvVB2iaY14"
+	rowrange := fmt.Sprintf("Хургада ответы!A%d:G", counter)
+	sendRequest(id, rowrange, counter, service)
+
 }
 
 func StartTest() (fm *formatter.Formatter) {
-	id := "1qkMMv2iwW7XSbJiJK2MGHkpZvCavJQ4RXz-Sx2iq7wE"
-	rRange := "Ответы на форму (1)!A2:G"
+	id := "1SzQnlwTT6KGKp9oj8JcQEHA0ZvPwh1I_KbvVB2iaY14"
+	rRange := "Хургада ответы!A2:G"
 	service := getClient()
 	data, err := readSheet(service, id, rRange)
 	if err == nil {
@@ -84,7 +88,7 @@ func StartTest() (fm *formatter.Formatter) {
 			flag := fmt.Sprintf("%v", row[6])
 			if flag == "0" || flag == "" {
 				fm = admin.FromGoogle(row)
-				err := updateFlag(service, id, "Ответы на форму (1)!G"+fmt.Sprintf("%d", i+2))
+				err := updateFlag(service, id, "Хургада ответы!G"+fmt.Sprintf("%d", i+2))
 				if err != nil {
 					log.Printf("Unable to update flag: %v", err)
 				}

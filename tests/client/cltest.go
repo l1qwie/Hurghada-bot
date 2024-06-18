@@ -1,7 +1,6 @@
 package client
 
 import (
-	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
 	"InfoBot/fmtogram/types"
 	"InfoBot/tests/settest"
@@ -99,7 +98,6 @@ func testShowFilm() {
 }
 
 func Start() {
-	apptype.DB = apptype.ConnectToDatabase(true)
 	testShowSchedule()
 	testShowWorship()
 	testShowYouthMeeting()

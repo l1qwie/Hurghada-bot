@@ -2,6 +2,7 @@ package handler
 
 import (
 	"InfoBot/apptype"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -76,9 +77,53 @@ func findClientWithActivity(userid, actid int) bool {
 	return count == 0
 }
 
-func registerTheClient(userid, actid int) {
+func registerTheClientDB(userid, actid int) {
 	_, err := apptype.DB.Exec("INSERT INTO DvijClients (id, userid, notiftime) VALUES ($1, $2, CURRENT_TIMESTAMP)", actid, userid)
 	if err != nil {
 		log.Printf("YOU HAVE AND ERROR IN registerTheClient(): %v", err)
+	}
+}
+
+func selectUserId(interval string) ([]*userAct, error) {
+	var (
+		useract    []*userAct
+		userid, id int
+	)
+	query := fmt.Sprintf(`
+        SELECT dcl.userid, dcl.id
+        FROM DvijClients dcl
+        JOIN Dvij d ON dcl.id = d.id
+        WHERE d.datetime <= CURRENT_TIMESTAMP + INTERVAL '%s'`, interval)
+	rows, err := apptype.DB.Query(query)
+	log.Print(rows, err)
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() && err == nil {
+			row2 := new(userAct)
+			err = rows.Scan(&userid, &id)
+			if err == nil {
+				row2.userid = userid
+				row2.actid = id
+				useract = append(useract, row2)
+			}
+		}
+	}
+	return useract, err
+}
+
+func selectActInf(actid int, f func(error)) (string, string, string, string) {
+	var capt, dis, datetime, link string
+	err := apptype.DB.QueryRow("SELECT caption, description, datetime, link FROM Dvij WHERE id = $1", actid).Scan(&capt, &dis, &datetime, &link)
+	if err != nil {
+		f(err)
+	}
+	return capt, dis, datetime, link
+}
+
+func changeNotifStatus(column string, userid, actid int, f func(error)) {
+	query := fmt.Sprintf("UPDATE DvijClients SET %s = true WHERE userid = $1 AND id = $2 AND status != -1", column)
+	_, err := apptype.DB.Exec(query, userid, actid)
+	if err != nil {
+		f(err)
 	}
 }

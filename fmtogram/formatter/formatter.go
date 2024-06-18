@@ -14,7 +14,7 @@ func (fm *Formatter) WriteString(lineoftext string) {
 	fm.Message.Text = lineoftext
 }
 func (fm *Formatter) WriteChatName(chatname string) {
-	fm.Message.ChatName = fmt.Sprint("@", chatname)
+	fm.Message.ChatID = fmt.Sprint("@", chatname)
 }
 
 func (fm *Formatter) WriteChatId(chatID int) {
@@ -52,7 +52,9 @@ func (fm *Formatter) CheckDelete() (err error) {
 	)
 	if fm.DeleteMessage.MessageId != 0 {
 		function = "deleteMessage"
-		fm.DeleteMessage.ChatId = fm.Message.ChatID
+		if chatid, ok := fm.Message.ChatID.(int); ok {
+			fm.DeleteMessage.ChatId = chatid
+		}
 		jsonMessage, err = json.Marshal(fm.DeleteMessage)
 		if err == nil {
 			fm.contenttype = "application/json"
@@ -85,6 +87,7 @@ func (fm *Formatter) makebuf() (*bytes.Buffer, error) {
 }
 
 func (fm *Formatter) sendMessage() (*bytes.Buffer, string, error) {
+	log.Print("In sendMessage()")
 	buf, err := fm.makebuf()
 	return buf, "sendMessage", err
 }
@@ -160,10 +163,14 @@ func (fm *Formatter) Make() (*types.MessageResponse, error) {
 }
 
 func (fm *Formatter) SendToChannel() error {
+	log.Print("In SendToChannel()")
 	fm.ReadyKB()
 	buf, f, err := fm.sendMessage()
 	if err == nil {
+		log.Print(buf.String())
 		executer.Send(buf, f, fm.contenttype, true)
+	} else {
+		log.Printf("ERROR after fm.sendMessage(): %v", err)
 	}
 	return err
 }

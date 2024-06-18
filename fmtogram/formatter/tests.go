@@ -123,8 +123,12 @@ func (tfm *Formatter) AssertString(lineoftext string, condition bool) (err error
 }
 
 func (tfm *Formatter) AssertChatId(chatID int, condition bool) (err error) {
-	if tfm.Message.ChatID != chatID {
-		err = errors.AssertTest(fmt.Sprint(tfm.Message.ChatID), "WriteChatId", fmt.Sprint(chatID), "AssertChatId")
+	if chatid, ok := tfm.Message.ChatID.(int); ok {
+		if chatid != chatID {
+			err = errors.AssertTest(fmt.Sprint(tfm.Message.ChatID), "WriteChatId", fmt.Sprint(chatID), "AssertChatId")
+		}
+	} else {
+		err = fmt.Errorf("the chatId isn't int as was expected")
 	}
 	if condition {
 		if err != nil {
@@ -135,8 +139,12 @@ func (tfm *Formatter) AssertChatId(chatID int, condition bool) (err error) {
 }
 
 func (tfm *Formatter) AssertChatName(chatName string, condition bool) (err error) {
-	if tfm.Message.ChatName != fmt.Sprint("@", chatName) {
-		err = errors.AssertTest(fmt.Sprint(tfm.Message.ChatName), "WriteChatName", fmt.Sprint(chatName), "AssertChatName")
+	if chatid, ok := tfm.Message.ChatID.(string); ok {
+		if chatid != fmt.Sprint("@", chatName) {
+			err = errors.AssertTest(fmt.Sprint(tfm.Message.ChatID), "WriteChatName", fmt.Sprint(chatName), "AssertChatName")
+		}
+	} else {
+		err = fmt.Errorf("the chatId isn't string as was expected")
 	}
 	if condition {
 		if err != nil {

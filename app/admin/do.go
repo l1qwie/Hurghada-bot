@@ -301,24 +301,18 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 	fm.WriteChatId(req.Id)
 }
 
-func makeTheDataCooler(row []interface{}) ([]string, error) {
+func makeTheDataCooler(row []interface{}) []string {
 	res := make([]string, len(row))
 	for i := 0; i < len(row); i++ {
 		res[i] = fmt.Sprintf("%v", row[i])
 	}
-	time, err := timeToHHMM(res[4])
-	if err == nil {
-		res[4] = time
-	} else {
-		err = fmt.Errorf("invalid time format")
-	}
-	return res, err
+	return res
 }
 
 func prepareMessage(id int, inf []string) *formatter.Formatter {
 	fm := new(formatter.Formatter)
 	fm.WriteChatName("testdvijhurghada")
-	fm.WriteString(fmt.Sprintf(dict.Dictionary["ru"]["SampleChannel"], inf[1], inf[2], inf[3], inf[4], inf[5]))
+	fm.WriteString(fmt.Sprintf(dict.Dictionary["ru"]["SampleChannel"], inf[1], inf[2], fmt.Sprintf("%s %s", inf[3], inf[4]), inf[5]))
 	fm.WriteParseMode(types.HTML)
 	setKb(fm, []int{1}, []string{"Я приду!"}, []string{fmt.Sprint(id)})
 	if err := fm.Complete(); err == nil {
@@ -333,12 +327,10 @@ func prepareMessage(id int, inf []string) *formatter.Formatter {
 }
 
 func FromGoogle(row []interface{}) (fm *formatter.Formatter) {
-	inf, err := makeTheDataCooler(row)
+	inf := makeTheDataCooler(row)
+	id, err := saveToDatabase(inf)
 	if err == nil {
-		id, err := saveToDatabase(inf)
-		if err == nil {
-			fm = prepareMessage(id, inf)
-		}
+		fm = prepareMessage(id, inf)
 	}
 	if err != nil {
 		log.Printf("You made a mistake: %v", err)

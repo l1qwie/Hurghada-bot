@@ -53,7 +53,12 @@ func ru(dict map[string]string) {
 	dict["discrp"] = "Описание"
 	dict["Rus"] = "Русском языке"
 	dict["Engl"] = "Английском языке"
-	dict["SampleChannel"] = "Название: <b>%s</b>\n\n\nОписание <b>%s</b>\n\nДата и Время: <b>%s %s</b>\n\nСсылка на место проведения: %s"
+	dict["SampleChannel"] = "Название: <b>%s</b>\n\n\nОписание <b>%s</b>\n\nДата и Время: <b>%s</b>\n\nСсылка на место проведения: %s"
+	dict["Registred"] = "Вы записались на событие из телеграм канала testDvijHurghada. Мы уведомим вас за сутки и за несколько часов до начала. Вам нужно будет подтвердить, что вы точно придете"
+	dict["1 day"] = "До начала активности на которую вы подписались отслось меньше суток! Вы все еще планируете поучавствовать?"
+	dict["2 hours"] = "До начала активности на которую вы подписались отслось меньше двух часов! Вы все еще планируете поучавствовать?"
+	dict["I will"] = "Да, я буду!"
+	dict["I won't"] = "Нет, я не смогу!"
 }
 
 func en(dict map[string]string) {
@@ -107,6 +112,7 @@ func en(dict map[string]string) {
 	dict["discrp"] = "Description"
 	dict["Rus"] = "Russian"
 	dict["Engl"] = "English"
+	dict["Registred"] = "You have registered for the event from the Telegram channel testDvijHurghada. We will notify you one day and a few hours before the start. You will need to confirm that you will definitely attend"
 }
 
 func init() {

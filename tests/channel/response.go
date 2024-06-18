@@ -10,7 +10,7 @@ func checkProgress(fm *formatter.Formatter) {
 		panic("THE NEW ACIVITY WASN'T ADDED IN THE DATABASE")
 	}
 	fm.AssertChatName("testdvijhurghada", true)
-	fm.AssertString("Название: <b>Волейбол</b>\n\n\nОписание <b>Собираемся в зале поиграть в волейбол приглашаем абсолютно всех желающий (ну может быть только без совсем уж маленьких)</b>\n\nДата и Время: <b>14.09.2024 12:12</b>\n\nСсылка на место проведения: https://www.google.com/maps/place/El+Dahar+Bazars/@27.2562144,33.8211347,15.37z/data=!4m6!3m5!1s0x145287e83c67c555:0xa7c4c6807da2a614!8m2!3d27.2518573!4d33.8178499!16s%2Fg%2F11fzb6n0cq?entry=ttu", true)
+	fm.AssertString("Название: <b>Купаться!</b>\n\n\nОписание <b>Го купаться на пляже!</b>\n\nДата и Время: <b>12.08.2024 12:00:00</b>\n\nСсылка на место проведения: https://www.google.com/maps/place/%D0%9F%D0%B0%D1%80%D0%BA+%D0%9C%D0%B5%D0%BD%D0%B0%D1%85%D0%B5%D0%BC+%D0%91%D0%B5%D0%B3%D0%B8%D0%BD/@32.0398261,34.7853328,14.54z/data=!4m6!3m5!1s0x151d4b3c3ec5ba41:0x3ffa8eae4c5afcd1!8m2!3d32.0416723!4d34.8025098!16s%2Fg%2F122j3m_n?entry=ttu", true)
 	fm.AssertParseMode("HTML", true)
 	fm.AssertInlineKeyboard([]int{1}, []string{"Я приду!"}, []string{"1"}, []string{"cmd"}, true)
 }
@@ -37,8 +37,10 @@ func prepareReq() *types.TelegramResponse {
 	}
 }
 
-func checkResponse() {
+func checkResponse(fm *formatter.Formatter) {
 	if !newRegClient(1) {
 		panic("THE CLIENT WASN'T REGISTRED TO THE ACTIVITY")
 	}
+	fm.AssertChatId(999, true)
+	fm.AssertString("Вы записались на событие из телеграм канала testDvijHurghada. Мы уведомим вас за сутки и за несколько часов до начала. Вам нужно будет подтвердить, что вы точно придете", true)
 }

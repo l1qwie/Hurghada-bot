@@ -1,12 +1,15 @@
 package main
 
 import (
-	"InfoBot/tests/channel"
+	"InfoBot/apptype"
+	"InfoBot/tests/notification"
 )
 
 func main() {
+	apptype.DB = apptype.ConnectToDatabase(true)
 	//client.Start()
 	//admin.Start()
 	//fmtogram.Start()
-	channel.Start()
+	//channel.Start()
+	notification.Start()
 }

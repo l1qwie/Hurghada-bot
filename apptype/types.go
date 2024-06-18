@@ -26,6 +26,14 @@ type Common struct {
 	ChangesEn   string
 }
 
+type Answer struct {
+	Userid int    `json:"userid"`
+	Actid  int    `json:"actid"`
+	Answer string `json:"answer"`
+	First  bool   `json:"first"`
+	Second bool   `json:"second"`
+}
+
 func docConnect() string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		docHost,
