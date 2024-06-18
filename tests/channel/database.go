@@ -40,3 +40,10 @@ func deleteClientAcivity() {
 		panic(err)
 	}
 }
+
+func deleteClient() {
+	_, err := apptype.DB.Exec("DELETE FROM Users WHERE userid = 999")
+	if err != nil {
+		panic(err)
+	}
+}

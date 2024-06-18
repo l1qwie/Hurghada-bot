@@ -23,6 +23,7 @@ func Start() {
 	defer rewriteToSheet()
 	defer deleteActivity()
 	defer deleteClientAcivity()
+	defer deleteClient()
 	channelMessage()
 	regClient()
 	log.Print("All channel tests completed")

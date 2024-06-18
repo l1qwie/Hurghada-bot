@@ -37,6 +37,8 @@ CREATE TABLE DvijClients (
     userid BIGINT DEFAULT 0,
     notiftime TIMESTAMPTZ,
     notifeone bool DEFAULT false,
+    answerone INTEGER DEFAULT 0,
     notiftwo bool DEFAULT false,
+    answertwo INTEGER DEFAULT 0,
     status integer DEFAULT 0
 );

@@ -43,6 +43,13 @@ func reSetSeqDvij() {
 	}
 }
 
+func deleteClient() {
+	_, err := apptype.DB.Exec("DELETE FROM Users WHERE userid = 999")
+	if err != nil {
+		panic(err)
+	}
+}
+
 func notifone() bool {
 	var count int
 	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE userid = 999 AND id = 1 AND status = 0 AND notifeone = true").Scan(&count)
@@ -68,4 +75,29 @@ func selectDateTime() string {
 		panic(err)
 	}
 	return datetime
+}
+
+func changedstatus1() bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE answerone = 1 AND answertwo = 0 AND id = 1 AND userid = 999 AND status != -1").Scan(&count)
+	if err != nil {
+		panic(err)
+	}
+	return count > 0
+}
+
+func changedstatus2() bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE answerone = 1 AND answertwo = 1 AND id = 1 AND userid = 999 AND status != -1").Scan(&count)
+	if err != nil {
+		panic(err)
+	}
+	return count > 0
+}
+
+func createClient() {
+	_, err := apptype.DB.Exec("INSERT INTO Users (userId, action, isadmin) VALUES (999, 'new', 0)")
+	if err != nil {
+		panic(err)
+	}
 }

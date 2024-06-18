@@ -26,8 +26,10 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 	}
 }
 
-func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
+func retrieveUser(req *apptype.Common, fm *formatter.Formatter) bool {
+	ok := true
 	if find(req.Id, fm.Error) {
+		log.Print("?????????/")
 		dbRetrieveUser(req, fm.Error)
 		if req.Request == "/admin" {
 			req.Action = "divarication"
@@ -37,10 +39,20 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) {
 			changeStatus(req.Id, 0, fm.Error)
 		} else if req.Request == "/refresh" {
 			api.Start()
+			ok = false
+		} else {
+			log.Print("??????")
+			answer := new(apptype.Answer)
+			err := json.Unmarshal([]byte(req.Request), answer)
+			if err == nil {
+				ok = false
+				answersHandler(answer, req, fm)
+			}
 		}
 	} else {
 		createUser(req, fm.Error)
 	}
+	return ok
 }
 
 func logs(req *apptype.Common) {
@@ -61,18 +73,20 @@ func logs(req *apptype.Common) {
 }
 
 func Redirect(req *apptype.Common, fm *formatter.Formatter) {
-	retrieveUser(req, fm)
+	ok := retrieveUser(req, fm)
 	logs(req)
-	isadmin, err := wichWay(req.Id, fm.Error)
-	if err == nil {
-		if isadmin {
-			admin.Dispatcher(req, fm)
-		} else {
-			client.Dispatcher(req, fm)
+	if ok {
+		isadmin, err := wichWay(req.Id, fm.Error)
+		if err == nil {
+			if isadmin {
+				admin.Dispatcher(req, fm)
+			} else {
+				client.Dispatcher(req, fm)
+			}
 		}
-	}
-	if fm.Err != nil {
-		log.Print(fmt.Errorf("YOU HAVE AN ERROR! %d", fm.Err))
+		if fm.Err != nil {
+			log.Print(fmt.Errorf("YOU HAVE AN ERROR! %d", fm.Err))
+		}
 	}
 	retainUser(req, fm.Error)
 }
@@ -84,8 +98,10 @@ func registerTheClient(req *apptype.Common, fm *formatter.Formatter, id int) {
 }
 
 func RegToActivity(req *apptype.Common, fm *formatter.Formatter) {
+	if !find(req.Id, fm.Error) {
+		createUser(req, fm.Error)
+	}
 	ok, id := client.IntCheck(req.Request)
-	log.Print(ok, id)
 	if ok {
 		if findActivity(id) {
 			if findClientWithActivity(req.Id, id) {
@@ -210,4 +226,36 @@ func Notificationtest2() *formatter.Formatter {
 	fm := notifbody(useract[0], "2 hours", but1, but2)
 	changeNotifStatus("notiftwo", useract[0].userid, useract[0].actid, fm.Error)
 	return fm
+}
+
+func prepareREAnswer(an *apptype.Answer, fm *formatter.Formatter, id int) {
+	var str string
+	if !an.Second {
+		str = dict.Dictionary["ru"]["Cool1time"]
+	} else {
+		str = dict.Dictionary["ru"]["Cool2time"]
+	}
+	fm.WriteChatId(id)
+	fm.WriteString(str)
+}
+
+func prepareDelAnswer(fm *formatter.Formatter, id int) {
+	fm.WriteChatId(id)
+	fm.WriteString(dict.Dictionary["ru"]["upset"])
+}
+
+func answersHandler(an *apptype.Answer, req *apptype.Common, fm *formatter.Formatter) {
+	var column string
+	if !an.Second {
+		column = "answerone"
+	} else {
+		column = "answertwo"
+	}
+	if an.Answer == "yes" {
+		changeAnswerStat(column, an.Userid, an.Actid, fm.Error)
+		prepareREAnswer(an, fm, req.Id)
+	} else {
+		deleteClientAct(an.Userid, an.Actid, fm.Error)
+		prepareDelAnswer(fm, req.Id)
+	}
 }

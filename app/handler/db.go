@@ -95,7 +95,6 @@ func selectUserId(interval string) ([]*userAct, error) {
         JOIN Dvij d ON dcl.id = d.id
         WHERE d.datetime <= CURRENT_TIMESTAMP + INTERVAL '%s'`, interval)
 	rows, err := apptype.DB.Query(query)
-	log.Print(rows, err)
 	if err == nil {
 		defer rows.Close()
 		for rows.Next() && err == nil {
@@ -123,6 +122,20 @@ func selectActInf(actid int, f func(error)) (string, string, string, string) {
 func changeNotifStatus(column string, userid, actid int, f func(error)) {
 	query := fmt.Sprintf("UPDATE DvijClients SET %s = true WHERE userid = $1 AND id = $2 AND status != -1", column)
 	_, err := apptype.DB.Exec(query, userid, actid)
+	if err != nil {
+		f(err)
+	}
+}
+
+func changeAnswerStat(column string, userid, actid int, f func(error)) {
+	_, err := apptype.DB.Exec(fmt.Sprintf("UPDATE DvijClients SET %s = 1 WHERE userid = $1 AND id = $2 AND status != -1", column), userid, actid)
+	if err != nil {
+		f(err)
+	}
+}
+
+func deleteClientAct(userid, actid int, f func(error)) {
+	_, err := apptype.DB.Exec("UPDATE DvijClients status = -1 WHERE userid = $1 AND id = $2", userid, actid)
 	if err != nil {
 		f(err)
 	}

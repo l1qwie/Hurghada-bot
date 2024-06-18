@@ -2,6 +2,7 @@ package main
 
 import (
 	"InfoBot/apptype"
+	"InfoBot/tests/channel"
 	"InfoBot/tests/notification"
 )
 
@@ -10,6 +11,6 @@ func main() {
 	//client.Start()
 	//admin.Start()
 	//fmtogram.Start()
-	//channel.Start()
+	channel.Start()
 	notification.Start()
 }

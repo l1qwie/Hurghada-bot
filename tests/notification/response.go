@@ -43,3 +43,21 @@ func checkProgress2(fm *formatter.Formatter) {
 	fm.AssertParseMode("HTML", true)
 	log.Print("Test Notificationtest2() completed")
 }
+
+func checkAnswer1(fm *formatter.Formatter) {
+	if !changedstatus1() {
+		panic("The agree status wasn't changed in the first time")
+	}
+	fm.AssertChatId(999, true)
+	fm.AssertString("Мы очень рады, что вы все еще хотите поучаствовать! Будем вас ждать! Мы пришлем вам еще одно уведомление за пару часов до начала", true)
+	log.Print("Test checkAnswer1() completed")
+}
+
+func checkAnswer2(fm *formatter.Formatter) {
+	if !changedstatus2() {
+		panic("The agree status wasn't changed in the second time")
+	}
+	fm.AssertChatId(999, true)
+	fm.AssertString("Мы очень рады, что вы все еще хотите поучаствовать! Будем вас ждать!", true)
+	log.Print("Test checkAnswer2() completed")
+}
