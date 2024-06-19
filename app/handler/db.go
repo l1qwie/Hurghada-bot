@@ -102,7 +102,7 @@ func registerTheClientDB(userid, actid int) {
 	}
 }
 
-func selectUserId(interval string) ([]*userAct, error) {
+func selectUserId(interval, cond string) ([]*userAct, error) {
 	var (
 		useract    []*userAct
 		userid, id int
@@ -111,9 +111,10 @@ func selectUserId(interval string) ([]*userAct, error) {
         SELECT dcl.userid, dcl.id
         FROM DvijClients dcl
         JOIN Dvij d ON dcl.id = d.id
-        WHERE d.datetime <= CURRENT_TIMESTAMP + INTERVAL '%s'`, interval)
+        WHERE d.datetime <= CURRENT_TIMESTAMP + INTERVAL '%s' %s AND dcl.status != -1`, interval, cond)
 	rows, err := apptype.DB.Query(query)
 	if err == nil {
+		log.Print(rows)
 		defer rows.Close()
 		for rows.Next() && err == nil {
 			row2 := new(userAct)
@@ -156,5 +157,32 @@ func deleteClientAct(userid, actid int, f func(error)) {
 	_, err := apptype.DB.Exec("UPDATE DvijClients status = -1 WHERE userid = $1 AND id = $2", userid, actid)
 	if err != nil {
 		f(err)
+	}
+}
+
+func TimeGuard() {
+	rows, err := apptype.DB.Query("SELECT id FROM Dvij WHERE datetime < CURRENT_TIMESTAMP AND status != -1")
+	if err == nil {
+		log.Print("????", rows)
+		defer rows.Close()
+		id := 0
+		for rows.Next() && err == nil {
+			err = rows.Scan(&id)
+			if err == nil {
+				_, err = apptype.DB.Exec("UPDATE Dvij SET status = -1 WHERE id = $1", id)
+				if err == nil {
+					_, err = apptype.DB.Exec("UPDATE DvijClients SET status = -1 WHERE id = $1", id)
+					if err != nil {
+						log.Printf("Error after the app made a database request (3 time) in TimeGuard(): %s", err)
+					}
+				} else {
+					log.Printf("Error after the app made a database request (2 time) in TimeGuard(): %s", err)
+				}
+			} else {
+				log.Printf("Error while the app was scaning the rows from database in TimeGuard(): %s", err)
+			}
+		}
+	} else {
+		log.Printf("Error after the app made a database request (1 time) in TimeGuard(): %s", err)
 	}
 }

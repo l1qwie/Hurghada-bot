@@ -25,12 +25,12 @@ func prepareReq() *types.TelegramResponse {
 
 func createReq1() *types.TelegramResponse {
 	tr := prepareReq()
-	tr.Result[0].Query.Data = `{"userid":999,"actid":1,"answer":"yes","first":true,"second":false}`
+	tr.Result[0].Query.Data = "999.1.yes.true.false"
 	return tr
 }
 
 func createReq2() *types.TelegramResponse {
 	tr := prepareReq()
-	tr.Result[0].Query.Data = `{"userid":999,"actid":1,"answer":"yes","first":true,"second":true}`
+	tr.Result[0].Query.Data = "999.1.yes.true.true"
 	return tr
 }

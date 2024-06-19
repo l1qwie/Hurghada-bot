@@ -17,13 +17,6 @@ func usual(fm *formatter.Formatter) {
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 }
 
-func showOptions(fm *formatter.Formatter) {
-	logs(fm)
-	fm.AssertChatId(999, true)
-	fm.AssertString("Выберите опцию", true)
-	fm.AssertInlineKeyboard([]int{1, 1, 1, 1}, []string{"Создать", "Изменить", "Удалить", "Список"}, []string{"create", "change", "delete", "list"}, []string{"cmd", "cmd", "cmd", "cmd"}, true)
-}
-
 func showActivity(fm *formatter.Formatter) {
 	logs(fm)
 	fm.AssertChatId(999, true)
@@ -43,11 +36,6 @@ func showPersonInf(fm *formatter.Formatter) {
 	fm.AssertChatId(999, true)
 	fm.AssertString("Данные клиента:\n\n\nИмя (если не скрыто): Богдан\nФамилия (если не скрыто): Дмитриев\nНомер телефона (если не скрыт): +79034589291\nПодтверждений обнаружено: 0 из 2", true)
 	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Личная переписка", "Главное Меню"}, []string{"t.me/l1qwie", "MainMenu"}, []string{"url", "cmd"}, true)
-}
-
-func chCreateOpt(fm *formatter.Formatter) {
-	usual(fm)
-	fm.AssertString("Введите название активности (на русском языке), которую вы добавляете. Это название будет отображаться на кнопках", true)
 }
 
 func sentNameRu(fm *formatter.Formatter) {
@@ -110,13 +98,6 @@ func sentSave(fm *formatter.Formatter) {
 	}
 }
 
-func chDeleteOpt(fm *formatter.Formatter) {
-	logs(fm)
-	fm.AssertChatId(999, true)
-	fm.AssertString("Выберите активность, которую хотите удалить", true)
-	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Богослужение", "Главное Меню"}, []string{"1", "MainMenu"}, []string{"cmd", "cmd"}, true)
-}
-
 func sentActivity(fm *formatter.Formatter) {
 	usual(fm)
 	fm.AssertString("Данные успешно изменены!", true)
@@ -124,14 +105,6 @@ func sentActivity(fm *formatter.Formatter) {
 	if !checkDelActivity() {
 		panic("The activity wasn't deleted from the database")
 	}
-}
-
-func chChangeOpt(fm *formatter.Formatter) {
-	logs(fm)
-	fm.AssertChatId(999, true)
-	fm.AssertString("Выберите активность, которую хотите изменить", true)
-	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Богослужение", "Главное Меню"},
-		[]string{"1", "MainMenu"}, []string{"cmd", "cmd"}, true)
 }
 
 func sentActivityCh(fm *formatter.Formatter) {

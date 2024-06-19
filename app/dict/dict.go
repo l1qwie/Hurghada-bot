@@ -3,45 +3,37 @@ package dict
 var Dictionary map[string]map[string]string
 
 func ru(dict map[string]string) {
-	dict["sayHello"] = `Инструкция к использованию бота:
-	
-	
-	Главные команды:
-	
-	/admin - позволяет просматривать весь функционал доступный организатору
-	/client - позволяет просматривать весь функционал доступный клиентам
-	/refresh - после получения этой команды бот нначнет читать таблицу в 
-			Google Sheets и если найдет что то новое (не прочитанное ранее) 
-			отправит новые данные в телеграм-канал t.me/testdvijhurghada
-	
-	Update 1.0
-		Добавлены команды /admin и /client. 
-		Разработан и протестирован весь функционал
-	Update 1.1
-		Добавлены Google Forms для более быстрого заполнения информации
-		Реализованн конект Google Forms и Google Sheets
-		Реализован конект бота с Google Sheets
-		Добавлена команда /refresh
-		Добавлена возможность писать в телеграм-канал
-		Добавлен функционал запоминания клиентов, которые захотели учавстовать
-		Добавлен функционал уведомлений. Первое уведомление приходит за день до,
-			а второе за 2 часа до начала
-		Добавлен интерфейс просмотра клиентов (в admin части). Так же 
-			есть возможность перейти в чат с клиентом сразу из бота
-	
+	dict["sayHello"] = `<b>Инструкция к использованию бота:</b>
 
-	Для тестирования 1.1 версии рекомендую:
 
-	1. Зайти в канал t.me/testdvijhurghada
-	2. Воспользоваться Google Forms:
-	https://docs.google.com/forms/d/e/1FAIpQLSfl-nw9Ik1Yl5tgdlGhgH5Sxa1C_Jtf6BMC3rUhcq4olZ361g/viewform?usp=sf_link
-	3. Отправить /refresh в личный чат с ботом (важно именно в личный!)
-	4. Нажать на кнопку "Я приду!" в телеграмм канале (кнопка будет в отправленном ботом сообщении)
-	5. Отправить /admin в личный чат и нажать на кнопку "Список", далее выбрать 
-			название активности, которое вы только заполняли в Google Forms и нажать на кнопку.
-			Бот вышлет список всех желающих учавстовать в активности
-	6. Выберите клиента (нажав на кнопку). Бот пришлет небольшую информацию о клиенте
-			и кнопку для перехода в личную переписку`
+<b>Главные команды:</b>
+
+/admin - позволяет просматривать весь функционал доступный организатору
+/client - позволяет просматривать весь функционал доступный клиентам
+/refresh - после получения этой команды бот нначнет читать таблицу в Google Sheets и если найдет что то новое (не прочитанное ранее) отправит новые данные в телеграм-канал t.me/testdvijhurghada
+
+<b>Update 1.0</b>
+ - Добавлены команды /admin и /client. 
+ - Разработан и протестирован весь функционал
+<b>Update 1.1</b>
+ - Добавлены Google Forms для более быстрого заполнения информации
+ - Реализованн конект Google Forms и Google Sheets
+ - Реализован конект бота с Google Sheets
+ - Добавлена команда /refresh
+ - Добавлена возможность писать в телеграм-канал
+ - Добавлен функционал запоминания клиентов, которые захотели учавстовать
+ - Добавлен функционал уведомлений. Первое уведомление приходит за день до, а второе за 2 часа до начала
+ - Добавлен интерфейс просмотра клиентов (в admin части). Так же есть возможность перейти в чат с клиентом сразу из бота
+
+
+<b>Для тестирования 1.1 версии рекомендую:</b>
+
+<b>1.</b> Зайти в канал t.me/testdvijhurghada
+<b>2.</b> Воспользоваться Google Forms: https://docs.google.com/forms/d/e/1FAIpQLSfl-nw9Ik1Yl5tgdlGhgH5Sxa1C_Jtf6BMC3rUhcq4olZ361g/viewform?usp=sf_link
+<b>3.</b> Отправить /refresh в личный чат с ботом (важно именно в личный!)
+<b>4.</b> Нажать на кнопку "Я приду!" в телеграмм канале (кнопка будет в отправленном ботом сообщении)
+<b>5.</b> Отправить /admin в личный чат и нажать на кнопку "Список", далее выбрать название активности, которое вы только заполняли в Google Forms и нажать на кнопку. Бот вышлет список всех желающих учавстовать в активности
+<b>6.</b> Выберите клиента (нажав на кнопку). Бот пришлет небольшую информацию о клиенте и кнопку для перехода в личную переписку`
 	dict["Client"] = "Клиент"
 	dict["Admin"] = "Админ"
 	dict["lookWhatWeHave"] = "Привет! Это чат-бот церкви Хургады! Мы рады видеть Вас! На этой неделе у нас будут кое-какие активности, и мы будем вас с нетерпением ждать! Ниже нажмите на кнопку, чтобы узнать подробнее"
@@ -108,35 +100,35 @@ func ru(dict map[string]string) {
 }
 
 func en(dict map[string]string) {
-	dict["sayHello"] = `Bot Usage Instructions:
+	dict["sayHello"] = `<b>Bot Usage Instructions:</b>
 
-	Main Commands:
-	/admin - Allows viewing all functionalities available to the organizer
-	/client - Allows viewing all functionalities available to clients
-	/refresh - Upon receiving this command, the bot will start reading the table in Google Sheets. If it finds something new (not previously read), it will send the new data to the Telegram channel t.me/testdvijhurghada
+<b>Main Commands:</b>
+/admin - Allows viewing all functionalities available to the organizer
+/client - Allows viewing all functionalities available to clients
+/refresh - Upon receiving this command, the bot will start reading the table in Google Sheets. If it finds something new (not previously read), it will send the new data to the Telegram channel t.me/testdvijhurghada
 
-	Update 1.0
-		Added commands /admin and /client
-		All functionalities were developed and tested
+<b>Update 1.0</b>
+ - Added commands /admin and /client
+ - All functionalities were developed and tested
 
-	Update 1.1
-		Added Google Forms for faster information entry
-		Implemented the connection between Google Forms and Google Sheets
-		Implemented the connection between the bot and Google Sheets
-		Added the /refresh command
-		Added the ability to post in the Telegram channel
-		Added functionality to remember clients who wish to participate
-		Added notification functionality. The first notification is sent a day before, and the second one two hours before the start
-		Added a client viewing interface (in the admin part). There is also the option to go directly to a chat with the client from the bot
+<b>Update 1.1</b>
+ - Added Google Forms for faster information entry
+ - Implemented the connection between Google Forms and Google Sheets
+ - Implemented the connection between the bot and Google Sheets
+ - Added the /refresh command
+ - Added the ability to post in the Telegram channel
+ - Added functionality to remember clients who wish to participate
+ - Added notification functionality. The first notification is sent a day before, and the second one two hours before the start
+ - Added a client viewing interface (in the admin part). There is also the option to go directly to a chat with the client from the bot
 
-	To test version 1.1, it is recommended to:
+<b>To test version 1.1, it is recommended to:</b>
 
-	1. Join the channel t.me/testdvijhurghada
-	2. Use the Google Forms: https://docs.google.com/forms/d/e/1FAIpQLSfl-nw9Ik1Yl5tgdlGhgH5Sxa1C_Jtf6BMC3rUhcq4olZ361g/viewform?usp=sf_link
-	3. Send /refresh in a private chat with the bot (it is important to do this in a private chat!)
-	4. Click the "Я приду!" button in the Telegram channel (the button will be in the message sent by the bot)
-	5. Send /admin in a private chat and click the "List" button. Then select the activity name that you just filled in Google Forms and click the button. The bot will send a list of everyone who wants to participate in the activity
-	6. Select a client (by clicking the button). The bot will send brief information about the client and a button to start a private conversation`
+<b>1.</b> Join the channel t.me/testdvijhurghada
+<b>2.</b> Use the Google Forms: https://docs.google.com/forms/d/e/1FAIpQLSfl-nw9Ik1Yl5tgdlGhgH5Sxa1C_Jtf6BMC3rUhcq4olZ361g/viewform?usp=sf_link
+<b>3.</b> Send /refresh in a private chat with the bot (it is important to do this in a private chat!)
+<b>4.</b> Click the "Я приду!" button in the Telegram channel (the button will be in the message sent by the bot)
+<b>5.</b> Send /admin in a private chat and click the "List" button. Then select the activity name that you just filled in Google Forms and click the button. The bot will send a list of everyone who wants to participate in the activity
+<b>6.</b> Select a client (by clicking the button). The bot will send brief information about the client and a button to start a private conversation`
 	dict["Client"] = "Client"
 	dict["Admin"] = "Admin"
 	dict["lookWhatWeHave"] = "Hello! This is the chatbot of Hurghada Church! We are happy to see you! This week, we will have some activities, and we are eagerly waiting for you! Click the button below to learn more"

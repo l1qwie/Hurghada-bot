@@ -45,21 +45,22 @@ func updateFlag(service *sheets.Service, spreadsheetId, rangeToUpdate string) er
 	return err
 }
 
-func sendRequest(id, rowrange string, counter int, srv *sheets.Service) {
+func sendRequest(id, rowrange string, srv *sheets.Service) {
 	data, err := readSheet(srv, id, rowrange)
 	log.Print(data)
 	if err == nil && len(data.Values) > 0 {
-		for _, row := range data.Values {
-			flag := fmt.Sprintf("%v", row[6])
-			if flag == "0" {
-				admin.FromGoogle(row)
-				err = updateFlag(srv, id, "Хургада ответы!G"+fmt.Sprintf("%d", counter))
-				if err != nil {
-					log.Printf("Unable to update flag: %v", err)
+		for i, row := range data.Values {
+			if len(row) > 6 {
+				flag := fmt.Sprintf("%v", row[6])
+				if flag == "0" {
+					admin.FromGoogle(row)
+					err = updateFlag(srv, id, "Хургада ответы!G"+fmt.Sprintf("%d", i+2))
+					if err != nil {
+						log.Printf("Unable to update flag: %v", err)
+					}
+				} else {
+					log.Print("Row already processed, skipping")
 				}
-				counter++
-			} else {
-				log.Print("Row already processed, skipping")
 			}
 		}
 	} else {
@@ -70,11 +71,10 @@ func sendRequest(id, rowrange string, counter int, srv *sheets.Service) {
 
 // Start of reading Google Sheets
 func Start() {
-	counter := 2
 	service := getClient()
 	id := "1SzQnlwTT6KGKp9oj8JcQEHA0ZvPwh1I_KbvVB2iaY14"
-	rowrange := fmt.Sprintf("Хургада ответы!A%d:G", counter)
-	sendRequest(id, rowrange, counter, service)
+	rowrange := "Хургада ответы!A2:G"
+	sendRequest(id, rowrange, service)
 
 }
 

@@ -1,16 +1,23 @@
 package main
 
 import (
+	"InfoBot/app/handler"
 	"InfoBot/apptype"
-	"InfoBot/tests/client"
+	"InfoBot/fmtogram"
+	"time"
 )
 
 func main() {
 	apptype.DB = apptype.ConnectToDatabase(true)
-	client.Start()
+	//client.Start()
 	//admin.Start()
-	//go fmtogram.Start()
-	//handler.Notification()
 	//channel.Start()
 	//notification.Start()
+	go fmtogram.Start()
+	//handler.Notification()
+	for {
+		time.Sleep(time.Second * 10)
+		handler.TimeGuard()
+		time.Sleep(time.Hour * 3)
+	}
 }

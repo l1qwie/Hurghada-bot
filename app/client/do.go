@@ -4,6 +4,7 @@ import (
 	"InfoBot/app/dict"
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
+	"InfoBot/fmtogram/types"
 	"strconv"
 )
 
@@ -44,6 +45,7 @@ func showDetails(fm *formatter.Formatter, dict map[string]string, req, lang stri
 
 func sayHello(fm *formatter.Formatter, dict map[string]string) {
 	fm.WriteString(dict["sayHello"])
+	fm.WriteParseMode(types.HTML)
 }
 
 func lookWhatWeHave(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {

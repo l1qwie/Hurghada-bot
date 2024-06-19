@@ -8,12 +8,6 @@ func chList() *types.TelegramResponse {
 	return tr
 }
 
-func chCreate() *types.TelegramResponse {
-	tr := mainReq()
-	tr.Result[0].Query.Data = "create"
-	return tr
-}
-
 func chNameRu() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "Богослужение"
@@ -62,12 +56,6 @@ func chSave() *types.TelegramResponse {
 	return tr
 }
 
-func chDelete() *types.TelegramResponse {
-	tr := mainReq()
-	tr.Result[0].Query.Data = "delete"
-	return tr
-}
-
 func chActivity() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "1"
@@ -77,12 +65,6 @@ func chActivity() *types.TelegramResponse {
 func chPerson() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "999"
-	return tr
-}
-
-func chChange() *types.TelegramResponse {
-	tr := mainReq()
-	tr.Result[0].Query.Data = "change"
 	return tr
 }
 

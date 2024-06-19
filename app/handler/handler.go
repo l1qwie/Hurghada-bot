@@ -8,9 +8,10 @@ import (
 	"InfoBot/apptype"
 	"InfoBot/fmtogram/formatter"
 	"InfoBot/fmtogram/types"
-	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -27,6 +28,7 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 }
 
 func retrieveUser(req *apptype.Common, fm *formatter.Formatter) bool {
+	var err error
 	ok := true
 	if find(req.Id, fm.Error) {
 		dbRetrieveUser(req, fm.Error)
@@ -40,11 +42,26 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) bool {
 			api.Start()
 			ok = false
 		} else {
-			answer := new(apptype.Answer)
-			err := json.Unmarshal([]byte(req.Request), answer)
-			if err == nil {
-				ok = false
-				answersHandler(answer, req, fm)
+			parts := strings.Split(req.Request, ".")
+			if len(parts) == 5 {
+				answer := new(apptype.Answer)
+				fmt.Sscanf(parts[0], "%d", &answer.Userid)
+				fmt.Sscanf(parts[1], "%d", &answer.Actid)
+				answer.Answer = parts[2]
+				answer.First, err = strconv.ParseBool(parts[3])
+				if err == nil {
+					answer.Second, err = strconv.ParseBool(parts[4])
+					if err != nil {
+						log.Printf("Error parsing Second: %v", err)
+					} else {
+						ok = false
+						answersHandler(answer, req, fm)
+					}
+				} else {
+					log.Printf("Error parsing First: %v", err)
+				}
+			} else {
+				log.Print("Invalid format")
 			}
 		}
 	} else {
@@ -109,37 +126,20 @@ func RegToActivity(req *apptype.Common, fm *formatter.Formatter) {
 	}
 }
 
-func prepareKbJson(row *userAct, secondtime bool) (string, string) {
-	var jsonbut1, jsonbut2 []byte
-	but1 := &apptype.Answer{
-		Userid: row.userid,
-		Actid:  row.actid,
-		Answer: "yes",
-		First:  true,
-	}
-	but2 := &apptype.Answer{
-		Userid: row.userid,
-		Actid:  row.actid,
-		Answer: "no",
-		First:  true,
-	}
+func prepareButtons(row *userAct, secondtime bool) (string, string) {
+	btn1 := fmt.Sprintf("%d.%d.%s.%v", row.userid, row.actid, "yes", true)
+	btn2 := fmt.Sprintf("%d.%d.%s.%v", row.userid, row.actid, "no", true)
 	if secondtime {
-		but1.Second = true
-		but2.Second = true
-	}
-	jsonbut1, err := json.Marshal(but1)
-	if err == nil {
-		jsonbut2, err = json.Marshal(but2)
-		if err != nil {
-			log.Printf("!ERROR! after jsonbut2, err = json.Marshal(but2) in prepareKbJson(): %v", err)
-		}
+		btn1 = fmt.Sprintf("%s.%v", btn1, true)
+		btn2 = fmt.Sprintf("%s.%v", btn2, true)
 	} else {
-		log.Printf("!ERROR! after jsonbut1, err := json.Marshal(but1) in prepareKbJson(): %v", err)
+		btn1 = fmt.Sprintf("%s.%v", btn1, false)
+		btn2 = fmt.Sprintf("%s.%v", btn2, false)
 	}
-	return string(jsonbut1), string(jsonbut2)
+	return btn1, btn2
 }
 
-func notifbody(row *userAct, interval, but1, but2 string) *formatter.Formatter {
+func notifbody(row *userAct, interval, btn1, btn2 string) *formatter.Formatter {
 	fm := new(formatter.Formatter)
 	fm.WriteChatId(row.userid)
 	caption, discp, datetime, link := selectActInf(row.actid, fm.Error)
@@ -148,7 +148,7 @@ func notifbody(row *userAct, interval, but1, but2 string) *formatter.Formatter {
 		date := parsed.Format("2006-01-02")
 		time := parsed.Format("15:04:05")
 		fm.WriteString(fmt.Sprint(dict.Dictionary["ru"][interval], "\n\n\n", fmt.Sprintf(dict.Dictionary["ru"]["SampleChannel"], caption, discp, fmt.Sprintf("%s %s", date, time), link)))
-		setKb(fm, []int{1, 1}, []string{dict.Dictionary["ru"]["I will"], dict.Dictionary["ru"]["I won't"]}, []string{but1, but2})
+		setKb(fm, []int{1, 1}, []string{dict.Dictionary["ru"]["I will"], dict.Dictionary["ru"]["I won't"]}, []string{btn1, btn2})
 		fm.WriteParseMode(types.HTML)
 	} else {
 		fm.Error(err)
@@ -158,7 +158,7 @@ func notifbody(row *userAct, interval, but1, but2 string) *formatter.Formatter {
 
 func send(fm *formatter.Formatter) {
 	if err := fm.Complete(); err == nil {
-		err = fm.SendToChannel()
+		_, err = fm.Make()
 		if err != nil {
 			log.Printf("YOU HAVE AN ERROR DURING THE PROCCESS OF SENDING A MESSAGE TO A USER (notification): %v", err)
 		}
@@ -168,10 +168,11 @@ func send(fm *formatter.Formatter) {
 }
 
 func notifDay() {
-	useract, err := selectUserId("1 day")
+	useract, err := selectUserId("1 day", "AND notifeone = false AND notiftwo = false")
 	if err == nil {
 		for _, row := range useract {
-			but1, but2 := prepareKbJson(row, false)
+			log.Print("POLUCHILOS!!!", row)
+			but1, but2 := prepareButtons(row, false)
 			fm := notifbody(row, "1 day", but1, but2)
 			changeNotifStatus("notifeone", row.userid, row.actid, fm.Error)
 			send(fm)
@@ -182,10 +183,10 @@ func notifDay() {
 }
 
 func notifHours() {
-	useract, err := selectUserId("2 hours")
+	useract, err := selectUserId("2 hours", "AND notifeone = true AND notiftwo = false")
 	if err == nil {
 		for _, row := range useract {
-			but1, but2 := prepareKbJson(row, true)
+			but1, but2 := prepareButtons(row, true)
 			fm := notifbody(row, "1 day", but1, but2)
 			changeNotifStatus("notiftwo", row.userid, row.actid, fm.Error)
 			send(fm)
@@ -199,16 +200,16 @@ func Notification() {
 	for {
 		notifDay()
 		notifHours()
-		time.Sleep(time.Second * 120)
+		time.Sleep(time.Second * 10)
 	}
 }
 
 func Notificationtest1() *formatter.Formatter {
-	useract, err := selectUserId("12 seconds")
+	useract, err := selectUserId("12 seconds", "AND notifeone = false AND notiftwo = false")
 	if err != nil {
 		panic(err)
 	}
-	but1, but2 := prepareKbJson(useract[0], false)
+	but1, but2 := prepareButtons(useract[0], false)
 	fm := notifbody(useract[0], "1 day", but1, but2)
 	changeNotifStatus("notifeone", useract[0].userid, useract[0].actid, fm.Error)
 	return fm
@@ -216,12 +217,13 @@ func Notificationtest1() *formatter.Formatter {
 
 func Notificationtest2() *formatter.Formatter {
 	time.Sleep(time.Second * 2)
-	useract, err := selectUserId("10 second")
+	useract, err := selectUserId("10 second", "AND notifeone = true AND notiftwo = false")
 	if err != nil {
 		panic(err)
 	}
-	but1, but2 := prepareKbJson(useract[0], true)
+	but1, but2 := prepareButtons(useract[0], true)
 	fm := notifbody(useract[0], "2 hours", but1, but2)
+	log.Print("SHALOM FROM JEWS!")
 	changeNotifStatus("notiftwo", useract[0].userid, useract[0].actid, fm.Error)
 	return fm
 }
