@@ -2,18 +2,6 @@ package admin
 
 import "InfoBot/fmtogram/types"
 
-func sayHello() *types.TelegramResponse {
-	tr := mainReq()
-	tr.Result[0].Query.Data = "/start"
-	return tr
-}
-
-func chAdmin() *types.TelegramResponse {
-	tr := mainReq()
-	tr.Result[0].Query.Data = "/admin"
-	return tr
-}
-
 func chList() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "list"

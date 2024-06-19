@@ -44,7 +44,6 @@ func showDetails(fm *formatter.Formatter, dict map[string]string, req, lang stri
 
 func sayHello(fm *formatter.Formatter, dict map[string]string) {
 	fm.WriteString(dict["sayHello"])
-	setKb(fm, []int{1, 1}, []string{dict["Client"], dict["Admin"]}, []string{"client", "admin"})
 }
 
 func lookWhatWeHave(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {

@@ -30,8 +30,8 @@ func DeleteUser() {
 	}
 }
 
-func CreateUser() {
-	_, err := apptype.DB.Exec("INSERT INTO Users (userId, name, lastname, phone, nickname, isadmin) VALUES ($1, 'Богдан', 'Дмитриев', '+79034589291', 'l1qwie', $2)", 999, 0)
+func CreateUser(isadmin int, action string) {
+	_, err := apptype.DB.Exec("INSERT INTO Users (userId, action, level, name, lastname, phone, nickname, isadmin) VALUES ($1, $2, 0, 'Богдан', 'Дмитриев', '+79034589291', 'l1qwie', $3)", 999, action, isadmin)
 	if err != nil {
 		panic(err)
 	}

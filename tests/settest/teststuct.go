@@ -43,7 +43,7 @@ func (t *TestStuct) checkTheTrash() bool {
 // else - return false
 // only if the main counter != 0
 func (t *TestStuct) checkTheWorng() bool {
-	if t.Wcounter < wrongAnswers {
+	if t.Wcounter < wrongAnswers && t.TRcount != 0 {
 		if t.TRcount != 0 {
 			t.FuncRes[t.TRcount-1](t.response)
 		}
@@ -52,7 +52,7 @@ func (t *TestStuct) checkTheWorng() bool {
 }
 
 func (t *TestStuct) theHeadTheAdminCh() {
-	if t.TRcount > 4 && t.TRcount < 7 {
+	if t.TRcount == 2 || t.TRcount == 3 || t.TRcount == 0 {
 		t.Trshcount = 3
 		t.request = t.FuncReq[t.TRcount]()
 	} else if !t.checkTheTrash() {
@@ -61,7 +61,7 @@ func (t *TestStuct) theHeadTheAdminCh() {
 }
 
 func (t *TestStuct) theHeadTheAdmin() {
-	if t.TRcount > 2 && t.TRcount < 7 {
+	if t.TRcount < 7 {
 		t.Trshcount = 3
 		t.request = t.FuncReq[t.TRcount]()
 	} else if !t.checkTheTrash() {
@@ -91,7 +91,7 @@ func (t *TestStuct) acceptAnswers() {
 }
 
 func (t *TestStuct) acceptAnswersTheAdminCh() {
-	if t.TRcount > 4 && t.TRcount < 7 {
+	if t.TRcount == 2 || t.TRcount == 3 || t.TRcount == 0 {
 		t.FuncRes[t.TRcount](t.response)
 	} else if !t.checkTheWorng() {
 		t.FuncRes[t.TRcount](t.response)
@@ -99,7 +99,7 @@ func (t *TestStuct) acceptAnswersTheAdminCh() {
 }
 
 func (t *TestStuct) acceptAnswersTheAdmin() {
-	if t.TRcount > 2 && t.TRcount < 7 {
+	if t.TRcount < 7 {
 		t.FuncRes[t.TRcount](t.response)
 	} else if !t.checkTheWorng() {
 		t.FuncRes[t.TRcount](t.response)

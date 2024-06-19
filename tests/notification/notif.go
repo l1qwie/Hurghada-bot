@@ -27,7 +27,7 @@ func Start() {
 	defer settest.DeleteUser()
 	settest.CreateDvij()
 	settest.CreateClientDvij()
-	settest.CreateUser()
+	settest.CreateUser(0, "divarication")
 	notif1()
 	notif2()
 }

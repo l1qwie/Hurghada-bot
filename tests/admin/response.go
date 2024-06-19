@@ -17,13 +17,6 @@ func usual(fm *formatter.Formatter) {
 	fm.AssertInlineKeyboard([]int{1}, []string{"Главное Меню"}, []string{"MainMenu"}, []string{"cmd"}, true)
 }
 
-func greeteings(fm *formatter.Formatter) {
-	logs(fm)
-	fm.AssertChatId(999, true)
-	fm.AssertString("Привет! Это чат-бот церкви Хургады! Мы рады видеть Вас!", true)
-	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Клиент", "Админ"}, []string{"client", "admin"}, []string{"cmd", "cmd"}, true)
-}
-
 func showOptions(fm *formatter.Formatter) {
 	logs(fm)
 	fm.AssertChatId(999, true)

@@ -10,7 +10,7 @@ func sayHello() *types.TelegramResponse {
 
 func chClient() *types.TelegramResponse {
 	tr := mainReq()
-	tr.Result[0].Query.Data = "client"
+	tr.Result[0].Query.Data = "/client"
 	return tr
 }
 
