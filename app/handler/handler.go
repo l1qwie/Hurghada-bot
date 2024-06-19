@@ -171,7 +171,6 @@ func notifDay() {
 	useract, err := selectUserId("1 day", "AND notifeone = false AND notiftwo = false")
 	if err == nil {
 		for _, row := range useract {
-			log.Print("POLUCHILOS!!!", row)
 			but1, but2 := prepareButtons(row, false)
 			fm := notifbody(row, "1 day", but1, but2)
 			changeNotifStatus("notifeone", row.userid, row.actid, fm.Error)
@@ -223,7 +222,6 @@ func Notificationtest2() *formatter.Formatter {
 	}
 	but1, but2 := prepareButtons(useract[0], true)
 	fm := notifbody(useract[0], "2 hours", but1, but2)
-	log.Print("SHALOM FROM JEWS!")
 	changeNotifStatus("notiftwo", useract[0].userid, useract[0].actid, fm.Error)
 	return fm
 }

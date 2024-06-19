@@ -114,7 +114,6 @@ func selectUserId(interval, cond string) ([]*userAct, error) {
         WHERE d.datetime <= CURRENT_TIMESTAMP + INTERVAL '%s' %s AND dcl.status != -1`, interval, cond)
 	rows, err := apptype.DB.Query(query)
 	if err == nil {
-		log.Print(rows)
 		defer rows.Close()
 		for rows.Next() && err == nil {
 			row2 := new(userAct)
@@ -163,7 +162,6 @@ func deleteClientAct(userid, actid int, f func(error)) {
 func TimeGuard() {
 	rows, err := apptype.DB.Query("SELECT id FROM Dvij WHERE datetime < CURRENT_TIMESTAMP AND status != -1")
 	if err == nil {
-		log.Print("????", rows)
 		defer rows.Close()
 		id := 0
 		for rows.Next() && err == nil {

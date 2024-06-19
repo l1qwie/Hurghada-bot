@@ -3,7 +3,6 @@ package helper
 import (
 	"InfoBot/fmtogram/types"
 	"fmt"
-	"log"
 )
 
 func ReturnText(telegramResponse *types.TelegramResponse) (text string) {
@@ -160,7 +159,6 @@ func ReturnVideosFileIdfrom(tr *types.TelegramResponse) ([]string, error) {
 
 func ReturnPhotoResp(resp *types.MessageResponse) (fileid string, err error) {
 	if len(resp.Result.Photo) > 0 {
-		log.Print(len(resp.Result.Photo))
 		if len(resp.Result.Photo) < 5 {
 			fileid = resp.Result.Photo[0].FileId
 		} else {

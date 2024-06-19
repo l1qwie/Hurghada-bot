@@ -36,8 +36,6 @@ func GetpostRequest(url string, Buffer *bytes.Buffer, contenttype string) (body 
 		client = &http.Client{}
 		response, err = client.Do(request)
 		if err == nil {
-			p, _ := io.ReadAll(response.Body)
-			log.Print(string(p))
 			defer response.Body.Close()
 		}
 	}

@@ -14,7 +14,7 @@ func main() {
 	//channel.Start()
 	//notification.Start()
 	go fmtogram.Start()
-	//handler.Notification()
+	handler.Notification()
 	for {
 		time.Sleep(time.Second * 10)
 		handler.TimeGuard()

@@ -47,7 +47,6 @@ func updateFlag(service *sheets.Service, spreadsheetId, rangeToUpdate string) er
 
 func sendRequest(id, rowrange string, srv *sheets.Service) {
 	data, err := readSheet(srv, id, rowrange)
-	log.Print(data)
 	if err == nil && len(data.Values) > 0 {
 		for i, row := range data.Values {
 			if len(row) > 6 {

@@ -155,7 +155,6 @@ func (fm *Formatter) Make() (*types.MessageResponse, error) {
 		}
 	}
 	if err == nil {
-		log.Print(buf.String())
 		log.Print("THE MESSAGE ID DELETE OR EDIT AND MARSHAL STATUS: ", fm.DeleteMessage.MessageId, fm.Message.MessageId, mshstat)
 		res = executer.Send(buf, f, fm.contenttype, mshstat)
 	}
@@ -168,7 +167,6 @@ func (fm *Formatter) SendToChannel() error {
 	fm.ReadyKB()
 	buf, f, err := fm.sendMessage()
 	if err == nil {
-		log.Print(buf.String())
 		executer.Send(buf, f, fm.contenttype, true)
 	} else {
 		log.Printf("ERROR after fm.sendMessage(): %v", err)

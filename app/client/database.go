@@ -3,7 +3,6 @@ package client
 import (
 	"InfoBot/apptype"
 	"fmt"
-	"log"
 )
 
 func selectDetails(req, lang string, f func(error)) string {
@@ -51,7 +50,6 @@ func SelectNames(lang string, length int, f func(error)) []string {
 		}
 		i++
 	}
-	log.Print("NAMES = ", names)
 	return names
 }
 
