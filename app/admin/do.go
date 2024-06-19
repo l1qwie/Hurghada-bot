@@ -32,7 +32,7 @@ func mainMenu(req *apptype.Common, fm *formatter.Formatter, dict map[string]stri
 	req.Action = "divarication"
 	req.Level = OPT
 	fm.WriteString(dict["chooseOpt"])
-	setKb(fm, []int{1, 1, 1}, []string{dict["create"], dict["change"], dict["delete"]}, []string{"create", "change", "delete"})
+	setKb(fm, []int{1, 1, 1, 1}, []string{dict["create"], dict["change"], dict["delete"], dict["list"]}, []string{"create", "change", "delete", "list"})
 }
 
 func checkLanguage(req *apptype.Common) {
@@ -163,6 +163,79 @@ func delete(req *apptype.Common, fm *formatter.Formatter, dict map[string]string
 	}
 }
 
+func showDvij(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	req.Level = 1
+	ids, names := selectAllDvij(fm.Error)
+	crd := make([]int, len(ids)+1)
+	for i := range crd {
+		crd[i] = 1
+	}
+	crd[len(ids)] = 1
+	ids = append(ids, "MainMenu")
+	names = append(names, dict["MainMenu"])
+	setKb(fm, crd, names, ids)
+	fm.WriteString(dict["ChAct"])
+}
+
+func showClients(req *apptype.Common, fm *formatter.Formatter, dict map[string]string, actid int) {
+	req.Level = 2
+	req.DvijId = actid
+	userids, nameslastname := selectAllClients(actid, fm.Error)
+	crd := make([]int, len(userids)+1)
+	for i := range crd {
+		crd[i] = 1
+	}
+	crd[len(userids)] = 1
+	userids = append(userids, "MainMenu")
+	nameslastname = append(nameslastname, dict["MainMenu"])
+	setKb(fm, crd, nameslastname, userids)
+	fm.WriteString(dict["ChClient"])
+}
+
+func chooseClient(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	ok, actid := client.IntCheck(req.Request)
+	if ok {
+		if findDvij(actid, fm.Error) {
+			showClients(req, fm, dict, actid)
+		} else {
+			showDvij(req, fm, dict)
+		}
+	} else {
+		showDvij(req, fm, dict)
+	}
+}
+
+func showClientInf(req *apptype.Common, fm *formatter.Formatter, dict map[string]string, userid int) {
+	name, lastname, phonem, nickname, confirmed := selectAllClientInf(userid, req.DvijId, fm.Error)
+	fm.WriteString(fmt.Sprintf(dict["ClientInf"], name, lastname, phonem, confirmed))
+	fm.SetIkbdDim([]int{1, 1})
+	fm.WriteInlineButtonUrl(dict["Chat"], fmt.Sprintf("t.me/%s", nickname))
+	fm.WriteInlineButtonCmd(dict["MainMenu"], "MainMenu")
+}
+
+func clientInf(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	ok, userid := client.IntCheck(req.Request)
+	if ok {
+		if findDvijClient(req.DvijId, userid, fm.Error) {
+			showClientInf(req, fm, dict, userid)
+		} else {
+			showClients(req, fm, dict, req.DvijId)
+		}
+	} else {
+		showClients(req, fm, dict, req.DvijId)
+	}
+}
+
+func list(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
+	if req.Level == START {
+		showDvij(req, fm, dict)
+	} else if req.Level == LEVEL1 {
+		chooseClient(req, fm, dict)
+	} else if req.Level == LEVEL2 {
+		clientInf(req, fm, dict)
+	}
+}
+
 func startChanges(req *apptype.Common, fm *formatter.Formatter, dict map[string]string) {
 	if req.Request == "change" {
 		chooseActivity(req, fm, dict["cooseAnActivToChange"], dict)
@@ -278,6 +351,8 @@ func divarication(req *apptype.Common, fm *formatter.Formatter, dict map[string]
 		change(req, fm, dict)
 	} else if req.Request == "delete" {
 		delete(req, fm, dict)
+	} else if req.Request == "list" {
+		list(req, fm, dict)
 	} else {
 		mainMenu(req, fm, dict)
 	}
@@ -295,6 +370,8 @@ func Dispatcher(req *apptype.Common, fm *formatter.Formatter) {
 		change(req, fm, dict.Dictionary[req.Language])
 	} else if req.Action == "delete" {
 		delete(req, fm, dict.Dictionary[req.Language])
+	} else if req.Action == "list" {
+		list(req, fm, dict.Dictionary[req.Language])
 	} else {
 		mainMenu(req, fm, dict.Dictionary[req.Language])
 	}

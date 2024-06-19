@@ -31,7 +31,7 @@ func DeleteUser() {
 }
 
 func CreateUser() {
-	_, err := apptype.DB.Exec("INSERT INTO Users (userId, isadmin) VALUES ($1, $2)", 999, 0)
+	_, err := apptype.DB.Exec("INSERT INTO Users (userId, name, lastname, phone, nickname, isadmin) VALUES ($1, 'Богдан', 'Дмитриев', '+79034589291', 'l1qwie', $2)", 999, 0)
 	if err != nil {
 		panic(err)
 	}
@@ -71,6 +71,45 @@ func DeleteActivity() {
 
 func RestartSeq() {
 	_, err := apptype.DB.Exec("ALTER SEQUENCE phrases_name_seq RESTART WITH 1")
+	if err != nil {
+		panic(err)
+	}
+}
+
+func CreateDvij() {
+	query := `
+        INSERT INTO Dvij (caption, description, datetime, link, status)
+        VALUES ('Купаться!', 'Го купаться на пляже!', 
+                CURRENT_TIMESTAMP + INTERVAL '12 second', 'https://www.google.com/maps/place/', 0)`
+	_, err := apptype.DB.Exec(query)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func CreateClientDvij() {
+	_, err := apptype.DB.Exec("INSERT INTO DvijClients (id, userid, notiftime, status) VALUES (1, 999, CURRENT_TIMESTAMP, 0)")
+	if err != nil {
+		panic(err)
+	}
+}
+
+func DeleteDvij() {
+	_, err := apptype.DB.Exec("DELETE FROM Dvij WHERE id = 1")
+	if err != nil {
+		panic(err)
+	}
+}
+
+func DeleteClientDvij() {
+	_, err := apptype.DB.Exec("DELETE FROM DvijClients WHERE id = 1 AND userid = 999")
+	if err != nil {
+		panic(err)
+	}
+}
+
+func RestartDvijSeq() {
+	_, err := apptype.DB.Exec("ALTER SEQUENCE dvij_id_seq RESTART WITH 1")
 	if err != nil {
 		panic(err)
 	}

@@ -1,5 +1,10 @@
 CREATE TABLE Users (
     userId BIGINT PRIMARY KEY NOT NULL,
+    name text DEFAULT 'missed',
+    lastname text DEFAULT 'missed',
+    phone text DEFAULT 'missed',
+    nickname text DEFAULT '',
+    dvijid int DEFAULT 0,
     language text DEFAULT '',
     action text DEFAULT 'new',
     level integer DEFAULT 0,

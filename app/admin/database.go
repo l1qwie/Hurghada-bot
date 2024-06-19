@@ -72,3 +72,100 @@ func saveToDatabase(row []string) (int, error) {
 	}
 	return id, err
 }
+
+func selectAllDvij(f func(error)) ([]string, []string) {
+	var (
+		ids        []string
+		names      []string
+		counter, i int
+	)
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Dvij WHERE status != -1").Scan(&counter)
+	if err != nil {
+		f(err)
+	} else {
+		rows, err := apptype.DB.Query("SELECT id, caption FROM Dvij WHERE status != -1")
+		if err != nil {
+			f(err)
+		} else {
+			defer rows.Close()
+			ids = make([]string, counter)
+			names = make([]string, counter)
+			for rows.Next() && err == nil {
+				err = rows.Scan(&ids[i], &names[i])
+				if err != nil {
+					f(err)
+				}
+				i++
+			}
+		}
+	}
+	return ids, names
+}
+
+func findDvij(actid int, f func(error)) bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM Dvij WHERE id = $1 AND status != -1", actid).Scan(&count)
+	if err != nil {
+		f(err)
+	}
+	return count > 0
+}
+
+func selectAllClients(actid int, f func(error)) ([]string, []string) {
+	var (
+		userids        []string
+		nameslastnames []string
+		name, lastname string
+		counter, i     int
+	)
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE id = $1 AND status != -1", actid).Scan(&counter)
+	if err != nil {
+		f(err)
+	} else {
+		rows, err := apptype.DB.Query(`SELECT DISTINCT(u.userid), name, lastname 
+				FROM Users u
+				JOIN DvijClients dcl ON dcl.userid = u.userid `)
+		if err != nil {
+			f(err)
+		} else {
+			defer rows.Close()
+			userids = make([]string, counter)
+			nameslastnames = make([]string, counter)
+			for rows.Next() && err == nil {
+				err = rows.Scan(&userids[i], &name, &lastname)
+				if err != nil {
+					f(err)
+				}
+				nameslastnames[i] = fmt.Sprintf("%s %s", name, lastname)
+				i++
+			}
+		}
+	}
+	return userids, nameslastnames
+}
+
+func findDvijClient(actid, userid int, f func(error)) bool {
+	var count int
+	err := apptype.DB.QueryRow("SELECT COUNT(*) FROM DvijClients WHERE userid = $1 AND id = $2 AND status != -1", userid, actid).Scan(&count)
+	if err != nil {
+		f(err)
+	}
+	return count > 0
+}
+
+func selectAllClientInf(userid, actid int, f func(error)) (string, string, string, string, int) {
+	var (
+		name, lastname, phone, nickname string
+		confirmed, i, j                 int
+	)
+	err := apptype.DB.QueryRow("SELECT name, lastname, phone, nickname FROM Users WHERE userid = $1", userid).Scan(&name, &lastname, &phone, &nickname)
+	if err != nil {
+		f(err)
+	}
+	err = apptype.DB.QueryRow("SELECT answerone, answertwo FROM DvijClients WHERE userid = $1 and id = $2", userid, actid).Scan(&i, &j)
+	if err != nil {
+		f(err)
+	}
+	confirmed = i + j
+	return name, lastname, phone, nickname, confirmed
+}

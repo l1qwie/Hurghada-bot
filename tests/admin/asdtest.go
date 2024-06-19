@@ -53,8 +53,27 @@ func testChangeActivity() {
 	ts.DoTest(true, true)
 }
 
+func testActivityList() {
+	defer settest.DeleteUser()
+	defer settest.DeleteClientDvij()
+	defer settest.DeleteDvij()
+	defer settest.RestartDvijSeq()
+	settest.CreateUser()
+	settest.CreateDvij()
+	settest.CreateClientDvij()
+	ts := new(settest.TestStuct)
+	ts.Round = 5
+	ts.Name = "ActivityList"
+	ts.FuncReq = []func() *types.TelegramResponse{sayHello, chAdmin, chList, chActivity, chPerson}
+	ts.FuncRes = []func(*formatter.Formatter){greeteings, showOptions, showActivity, showClients, showPersonInf}
+	ts.FuncTrsh = []func() *types.TelegramResponse{trfunc, trfunc1, trfunc2, trfunc3, trfunc4, trfunc5, trfunc4, trfunc5, trfunc, trfunc1}
+	ts.UpdtLevel = []int{0, 1, 3, 1, 2}
+	ts.DoTest(true, true)
+}
+
 func Start() {
-	testCreateActivity()
-	testDeleteActivity()
-	testChangeActivity()
+	//testCreateActivity()
+	//testDeleteActivity()
+	//testChangeActivity()
+	testActivityList()
 }

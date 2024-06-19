@@ -3,6 +3,7 @@ package channel
 import (
 	"InfoBot/api"
 	"InfoBot/app"
+	"InfoBot/tests/settest"
 	"log"
 )
 
@@ -23,7 +24,7 @@ func Start() {
 	defer rewriteToSheet()
 	defer deleteActivity()
 	defer deleteClientAcivity()
-	defer deleteClient()
+	defer settest.DeleteUser()
 	channelMessage()
 	regClient()
 	log.Print("All channel tests completed")

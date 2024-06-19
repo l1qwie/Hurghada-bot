@@ -3,6 +3,7 @@ package notification
 import (
 	"InfoBot/app"
 	"InfoBot/app/handler"
+	"InfoBot/tests/settest"
 )
 
 func notif1() {
@@ -20,13 +21,13 @@ func notif2() {
 }
 
 func Start() {
-	defer deleteDvij()
-	defer deleteClientDvij()
-	defer reSetSeqDvij()
-	defer deleteClient()
-	createDvij()
-	createClientDvij()
-	createClient()
+	defer settest.DeleteDvij()
+	defer settest.DeleteClientDvij()
+	defer settest.RestartDvijSeq()
+	defer settest.DeleteUser()
+	settest.CreateDvij()
+	settest.CreateClientDvij()
+	settest.CreateUser()
 	notif1()
 	notif2()
 }

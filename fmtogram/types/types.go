@@ -52,6 +52,7 @@ type User struct {
 	LastName string `json:"last_name"`
 	Username string `json:"username"`
 	Language string `json:"language_code"`
+	Phone    string `json:"phone_number"`
 }
 
 type TelegramUpdate struct {

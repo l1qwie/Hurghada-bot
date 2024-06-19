@@ -12,9 +12,14 @@ var DB *sql.DB
 type Common struct {
 	Request     string
 	Id          int
+	Name        string
+	Lastname    string
+	Phone       string
+	Nickname    string
 	Language    string
 	ExMessageId int
 	Action      string
+	DvijId      int
 	Level       int
 	TitleRu     string
 	TitleEn     string

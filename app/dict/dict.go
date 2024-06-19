@@ -62,6 +62,11 @@ func ru(dict map[string]string) {
 	dict["Cool1time"] = "Мы очень рады, что вы все еще хотите поучаствовать! Будем вас ждать! Мы пришлем вам еще одно уведомление за пару часов до начала"
 	dict["Cool2time"] = "Мы очень рады, что вы все еще хотите поучаствовать! Будем вас ждать!"
 	dict["upset"] = "Очень жаль!"
+	dict["list"] = "Список"
+	dict["ChAct"] = "Выберите активность"
+	dict["ChClient"] = "Ниже представлены все ваши клиенты, которые ожидают эту активность. Для более подробной информации выберите одного"
+	dict["ClientInf"] = "Данные клиента:\n\n\nИмя (если не скрыто): %s\nФамилия (если не скрыто): %s\nНомер телефона (если не скрыт): %s\nПодтверждений обнаружено: %d из 2"
+	dict["Chat"] = "Личная переписка"
 }
 
 func en(dict map[string]string) {
@@ -116,6 +121,11 @@ func en(dict map[string]string) {
 	dict["Rus"] = "Russian"
 	dict["Engl"] = "English"
 	dict["Registred"] = "You have registered for the event from the Telegram channel testDvijHurghada. We will notify you one day and a few hours before the start. You will need to confirm that you will definitely attend"
+	dict["list"] = "List"
+	dict["ChAct"] = "Select an activity"
+	dict["ChClient"] = "Below are all your clients who are awaiting this activity. To get more details, select one"
+	dict["ClientInf"] = "Client Details:\n\nName (if not hidden): %s\nSurname (if not hidden): %s\nPhone Number (if not hidden): %s\nConfirmations Found: %d out of 2"
+	dict["Chat"] = "Private Messaging"
 }
 
 func init() {

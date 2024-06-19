@@ -51,6 +51,15 @@ func ReturnUsername(telegramResponse *types.TelegramResponse) (username string) 
 	return username
 }
 
+func ReturnPhone(tr *types.TelegramResponse) (phone string) {
+	if tr.Result[0].Message.TypeFrom.Phone != "" {
+		phone = tr.Result[0].Message.TypeFrom.Phone
+	} else if tr.Result[0].Query.TypeFrom.Phone != "" {
+		phone = tr.Result[0].Query.TypeFrom.Phone
+	}
+	return phone
+}
+
 func ReturnLanguage(telegramResponse *types.TelegramResponse) (language string) {
 	if telegramResponse.Result[0].Message.TypeFrom.Language != "" {
 		language = telegramResponse.Result[0].Message.TypeFrom.Language

@@ -27,8 +27,8 @@ func find(userId int, f func(error)) bool {
 }
 
 func dbRetrieveUser(req *apptype.Common, f func(error)) {
-	dbreq := "SELECT action, level, titleru, titleen, discrpru, discrpen, delactivity, changeable, changesru, changesen FROM Users WHERE userId = $1"
-	err := apptype.DB.QueryRow(dbreq, req.Id).Scan(&req.Action, &req.Level, &req.TitleRu, &req.TitleEn, &req.DiscrpRu, &req.DiscrpEn, &req.DelActivity, &req.Changeable, &req.ChangesRu, &req.ChangesEn)
+	dbreq := "SELECT nickname, dvijid, action, level, titleru, titleen, discrpru, discrpen, delactivity, changeable, changesru, changesen FROM Users WHERE userId = $1"
+	err := apptype.DB.QueryRow(dbreq, req.Id).Scan(&req.Nickname, &req.DvijId, &req.Action, &req.Level, &req.TitleRu, &req.TitleEn, &req.DiscrpRu, &req.DiscrpEn, &req.DelActivity, &req.Changeable, &req.ChangesRu, &req.ChangesEn)
 	if err != nil {
 		f(err)
 	}
@@ -39,14 +39,32 @@ func createUser(req *apptype.Common, f func(error)) {
 	if err != nil {
 		f(err)
 	}
+	if req.Name != "" {
+		_, err = apptype.DB.Exec("UPDATE Users SET name = $1 WHERE userid = $2", req.Name, req.Id)
+		if err != nil {
+			f(err)
+		}
+	}
+	if req.Lastname != "" {
+		_, err = apptype.DB.Exec("UPDATE Users SET lastname = $1 WHERE userid = $2", req.Lastname, req.Id)
+		if err != nil {
+			f(err)
+		}
+	}
+	if req.Phone != "" {
+		_, err = apptype.DB.Exec("UPDATE Users SET phone = $1 WHERE userid = $2", req.Phone, req.Id)
+		if err != nil {
+			f(err)
+		}
+	}
 	req.Action = "new"
 	req.Level = 0
 }
 
 func retainUser(req *apptype.Common, f func(error)) {
 	_, err := apptype.DB.Exec(`UPDATE Users SET action = $1, level = $2, titleru = $4, titleen = $5, discrpru = $6, 
-	discrpen = $7, delactivity = $8, changeable = $9, changesru = $10, changesen = $11 WHERE userId = $3`,
-		req.Action, req.Level, req.Id, req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn, req.DelActivity, req.Changeable, req.ChangesRu, req.ChangesEn)
+	discrpen = $7, delactivity = $8, changeable = $9, changesru = $10, changesen = $11, nickname = $12, dvijid = $13 WHERE userId = $3`,
+		req.Action, req.Level, req.Id, req.TitleRu, req.TitleEn, req.DiscrpRu, req.DiscrpEn, req.DelActivity, req.Changeable, req.ChangesRu, req.ChangesEn, req.Nickname, req.DvijId)
 	if err != nil {
 		f(err)
 	}

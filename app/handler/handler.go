@@ -29,7 +29,6 @@ func setKb(fm *formatter.Formatter, crd []int, names, data []string) {
 func retrieveUser(req *apptype.Common, fm *formatter.Formatter) bool {
 	ok := true
 	if find(req.Id, fm.Error) {
-		log.Print("?????????/")
 		dbRetrieveUser(req, fm.Error)
 		if req.Request == "/admin" {
 			req.Action = "divarication"
@@ -41,7 +40,6 @@ func retrieveUser(req *apptype.Common, fm *formatter.Formatter) bool {
 			api.Start()
 			ok = false
 		} else {
-			log.Print("??????")
 			answer := new(apptype.Answer)
 			err := json.Unmarshal([]byte(req.Request), answer)
 			if err == nil {

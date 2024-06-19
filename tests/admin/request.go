@@ -14,6 +14,12 @@ func chAdmin() *types.TelegramResponse {
 	return tr
 }
 
+func chList() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "list"
+	return tr
+}
+
 func chCreate() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "create"
@@ -77,6 +83,12 @@ func chDelete() *types.TelegramResponse {
 func chActivity() *types.TelegramResponse {
 	tr := mainReq()
 	tr.Result[0].Query.Data = "1"
+	return tr
+}
+
+func chPerson() *types.TelegramResponse {
+	tr := mainReq()
+	tr.Result[0].Query.Data = "999"
 	return tr
 }
 

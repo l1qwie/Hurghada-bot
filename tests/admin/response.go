@@ -28,7 +28,28 @@ func showOptions(fm *formatter.Formatter) {
 	logs(fm)
 	fm.AssertChatId(999, true)
 	fm.AssertString("Выберите опцию", true)
-	fm.AssertInlineKeyboard([]int{1, 1, 1}, []string{"Создать", "Изменить", "Удалить", "Главное Меню"}, []string{"create", "change", "delete", "MainMenu"}, []string{"cmd", "cmd", "cmd", "cmd"}, true)
+	fm.AssertInlineKeyboard([]int{1, 1, 1, 1}, []string{"Создать", "Изменить", "Удалить", "Список"}, []string{"create", "change", "delete", "list"}, []string{"cmd", "cmd", "cmd", "cmd"}, true)
+}
+
+func showActivity(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString("Выберите активность", true)
+	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Купаться!", "Главное Меню"}, []string{"1", "MainMenu"}, []string{"cmd", "cmd"}, true)
+}
+
+func showClients(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString("Ниже представлены все ваши клиенты, которые ожидают эту активность. Для более подробной информации выберите одного", true)
+	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Богдан Дмитриев", "Главное Меню"}, []string{"999", "MainMenu"}, []string{"cmd", "cmd"}, true)
+}
+
+func showPersonInf(fm *formatter.Formatter) {
+	logs(fm)
+	fm.AssertChatId(999, true)
+	fm.AssertString("Данные клиента:\n\n\nИмя (если не скрыто): Богдан\nФамилия (если не скрыто): Дмитриев\nНомер телефона (если не скрыт): +79034589291\nПодтверждений обнаружено: 0 из 2", true)
+	fm.AssertInlineKeyboard([]int{1, 1}, []string{"Личная переписка", "Главное Меню"}, []string{"t.me/l1qwie", "MainMenu"}, []string{"url", "cmd"}, true)
 }
 
 func chCreateOpt(fm *formatter.Formatter) {
